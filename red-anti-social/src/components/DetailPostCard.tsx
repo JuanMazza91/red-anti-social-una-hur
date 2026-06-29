@@ -4,11 +4,11 @@ import TagList from "./TagList";
 import { useRelativeTime } from "../hooks/useRelativeTime";
 
 
-type PostCardProps = {
+type DetailPostCardProps = {
   post: Post;
 };
 
-function PostCard({ post }: PostCardProps) {
+function DetailPostCard({ post }: DetailPostCardProps) {
   const { autor, texto, imagenes, tags} = post;
   const fechaRelativa = useRelativeTime(post.createdAt);
 
@@ -66,4 +66,4 @@ function PostCard({ post }: PostCardProps) {
   );
 }
 
-export default PostCard;
+export default DetailPostCard;

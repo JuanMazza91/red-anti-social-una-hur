@@ -20,7 +20,6 @@ function PostsHome() {
         const listaPosts: Post[] = Array.isArray(data)
           ? data
           : ((data as any)?.posts ?? (data as any)?.data ?? []);
-
         setPosts(listaPosts);
       } catch (error: any) {
         setError(error.message || "Error al cargar los posts");
@@ -48,14 +47,13 @@ function PostsHome() {
               <p>No hay posts para mostrar.</p>
             )}
 
-            {posts.map((post) => (
-              <PostCard key={post._id} post={post} />
-            ))}
+            {posts.map((post) => {
+              return <PostCard key={post._id} post={post} />;
+            })}
           </main>
 
           {/* COLUMNA DERECHA: Noticias / Info Secundaria */}
-         
-          
+        
           <aside className="col-md-3 sticky-top d-none d-md-block" style={{ top: "80px", height: "fit-content" }}>
             
             {/* SECCIÓN NUEVA: Nosotros */}

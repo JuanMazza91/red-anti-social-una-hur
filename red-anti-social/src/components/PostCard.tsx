@@ -12,16 +12,7 @@ type PostCardProps = {
 function PostCard({ post }: PostCardProps) {
   const { autor, texto, imagenes, tags} = post;
   const fechaRelativa = useRelativeTime(post.createdAt);
-
-  // Formatear la fecha
-  /*
-  const fechaFormateada = new Date(createdAt).toLocaleDateString("es-ES", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  });
-  */
-
+  console.log("PostCard", post._id, post.comentarios?.length);
   return (
     <Card className="border border-3 border-dark rounded-0 banana-shadow mb-5 bg-white">
       {/* Cabecera del post con info del autor y fecha */}
@@ -69,6 +60,7 @@ function PostCard({ post }: PostCardProps) {
         {/* Sección de interacciones pegada a la izquierda junto a los tags */}
         <div className="d-flex align-items-center gap-3">
           <span className="text-dark small ">🍌 72 Bananos</span>
+          
           <span className="text-dark small ">💬 {post.comentarios?.length || 0} Comentarios</span>
         </div>
         <Link

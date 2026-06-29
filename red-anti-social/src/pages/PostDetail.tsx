@@ -66,7 +66,7 @@ function PostDetail() {
 
             <main className="col-md-6">
                 <DetailPostCard post={post} />
-                <CommentSection comments={comments} postId={post._id} />
+                <CommentSection comments={comments} postId={post._id} setComments={setComments} setPost={setPost}/>
             </main>
 
             <aside
