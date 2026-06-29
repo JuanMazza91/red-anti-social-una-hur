@@ -33,7 +33,7 @@ function PostsHome() {
   }, []);
 
   return (
-    <div className="container-home ">
+    <div className="container-home">
       <div className="container mt-4">
         <div className="row ">
           {/* COLUMNA IZQUIERDA: Menú de Navegación "Red Social de Monos" */}

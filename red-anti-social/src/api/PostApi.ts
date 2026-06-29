@@ -13,3 +13,39 @@ export async function obtenerPosts(): Promise<Post[]> {
 
   return posts;
 }
+
+export const obtenerPostPorId = async (id: string) => {
+  const response = await fetch(`${API_URL}/${id}`);
+
+  if (!response.ok) {
+    throw new Error("Error al obtener publicación");
+  }
+
+  return response.json();
+};
+
+export const obtenerComentariosDelPost = async (id: string) => {
+  const response = await fetch(
+    `${API_URL}/${id}/comentarios`
+  );
+
+
+  if (!response.ok) {
+    throw new Error("Error al obtener comentarios");
+  }
+
+  return response.json();
+};
+
+export const obtenerImagenesDelPost = async (id: string) => {
+  const response = await fetch(
+    `${API_URL}/${id}/imagenes`
+  );
+
+  if (!response.ok) {
+    throw new Error("Error al obtener imágenes");
+  }
+
+  return response.json();
+};
+

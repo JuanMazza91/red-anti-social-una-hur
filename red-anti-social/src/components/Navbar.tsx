@@ -23,7 +23,7 @@ function NavbarApp() {
         style={{ zIndex: 1050 }}
       >
         <Navbar.Brand
-          href="#home"
+          href="/home"
           className="font-headline text-uppercase tracking-tighter mb-0 fs-3"
           style={{
             color: "#ffe245",

@@ -1,7 +1,6 @@
 import { Card } from "react-bootstrap";
 import type { Post } from "../types/Index";
 import TagList from "./TagList";
-import { Link } from "react-router-dom";
 import { useRelativeTime } from "../hooks/useRelativeTime";
 
 
@@ -12,15 +11,6 @@ type PostCardProps = {
 function PostCard({ post }: PostCardProps) {
   const { autor, texto, imagenes, tags} = post;
   const fechaRelativa = useRelativeTime(post.createdAt);
-
-  // Formatear la fecha
-  /*
-  const fechaFormateada = new Date(createdAt).toLocaleDateString("es-ES", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  });
-  */
 
   return (
     <Card className="border border-3 border-dark rounded-0 banana-shadow mb-5 bg-white">
@@ -61,7 +51,7 @@ function PostCard({ post }: PostCardProps) {
       )}
 
       
-      <div className="d-flex gap-2 align-items-center mt-3">
+      <div className="d-flex gap-2 align-items-center">
         <TagList tags={tags || []} />
       </div>
 
@@ -71,12 +61,6 @@ function PostCard({ post }: PostCardProps) {
           <span className="text-dark small ">🍌 72 Bananos</span>
           <span className="text-dark small ">💬 {post.comentarios?.length || 0} Comentarios</span>
         </div>
-        <Link
-          to={`/post/${post._id}`}
-          className="fw-bold text-decoration-none text-dark login-link ms-sm-auto"
-        >
-          Ver mas
-        </Link>
       </Card.Footer>
     </Card>
   );

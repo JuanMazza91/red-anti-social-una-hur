@@ -13,6 +13,7 @@ export type Post = {
   imagenes?: PostImage[];
   autor:User;
   tags?: Tag[];
+  comentarios? : Comment[];
   createdAt: Date;
   updatedAt: Date;
 }
