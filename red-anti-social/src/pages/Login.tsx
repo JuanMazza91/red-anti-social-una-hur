@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom'; // 🍌 PASO 1: Importar useNavigate
 import '../style/Login.css';
 
 export const Login: React.FC = () => {
@@ -10,6 +11,9 @@ export const Login: React.FC = () => {
   const [nicknameError, setNicknameError] = useState<string | null>(null);
   const [passwordError, setPasswordError] = useState<string | null>(null);
 
+  const navigate = useNavigate(); // 🍌 PASO 2: Inicializar la función navigate
+
+  // Limpiador automático de errores viejo
   useEffect(() => {
     if (nicknameError || passwordError) {
       const timer = setTimeout(() => {
@@ -19,6 +23,18 @@ export const Login: React.FC = () => {
       return () => clearTimeout(timer);
     }
   }, [nicknameError, passwordError]);
+
+  // 🍌 PASO 3: Agregar el useEffect para controlar la redirección con delay de 2 segundos
+  useEffect(() => {
+    if (successMessage) {
+      const timer = setTimeout(() => {
+        navigate('/home'); // Te lleva a la ruta que configuramos antes
+      }, 2000); // 2000 milisegundos = 2 segundos
+
+      // Es muy importante limpiar el timer si por algún motivo el componente se desmonta antes
+      return () => clearTimeout(timer);
+    }
+  }, [successMessage, navigate]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -37,7 +53,7 @@ export const Login: React.FC = () => {
       setPasswordError('¡OOK! Falta la clave de la selva.');
       tieneErrores = true;
     } else if (password.length < 6) {
-      setPasswordError('¡OOK! La clave es corta. Mínimo 6 caracteres.');
+      setPasswordError('¡OOK! La clave is corta. Mínimo 6 caracteres.');
       tieneErrores = true;
     }
 
@@ -62,6 +78,7 @@ export const Login: React.FC = () => {
       }
 
       console.log('¡Ingreso exitoso!', usuarioExiste);
+      // Al actualizar este estado, se activa automáticamente el useEffect del PASO 3
       setSuccessMessage(`¡BIENVENIDO A LA SELVA, ${nickName.toUpperCase()}! 🍌🌴🦧`);
 
     } catch (err) {
