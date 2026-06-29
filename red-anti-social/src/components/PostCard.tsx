@@ -8,7 +8,7 @@ type PostCardProps = {
 };
 
 function PostCard({ post }: PostCardProps) {
-  const { autor, texto, imagenes, tag, createdAt } = post;
+  const { autor, texto, imagenes, tags, createdAt } = post;
 
   // Formatear la fecha
   const fechaFormateada = new Date(createdAt).toLocaleDateString("es-ES", {
@@ -17,11 +17,10 @@ function PostCard({ post }: PostCardProps) {
     year: "numeric",
   });
 
-  return (
-    <Card
+  console.log("Datos de imágenes:", imagenes);
 
-      className="border border-3 border-dark rounded-0 banana-shadow mb-5 bg-white"
-    >
+  return (
+    <Card className="border border-3 border-dark rounded-0 banana-shadow mb-5 bg-white">
       {/* Cabecera del post con info del autor y fecha */}
       <Card.Header className="d-flex align-items-center rounded-0 border-bottom  py-3">
         <div>
@@ -35,14 +34,18 @@ function PostCard({ post }: PostCardProps) {
       </Card.Header>
 
       {/* Imagen del post con borde inferior negro grueso si existe */}
+      {/* Imagen del post con borde inferior negro grueso si existe */}
       {imagenes && imagenes.length > 0 && (
-        <div className="border-bottom border-4 border-dark overflow-hidden bg-light">
+        /* CAMBIO 1: Agregamos p-3 acá para que genere el aire/margen uniforme hacia adentro */
+        <div className="overflow-hidden bg-light p-3">
           <Card.Img
             variant="top"
             src={imagenes[0].url}
             alt="Imagen del post"
-            className="rounded-0 w-100 object-cover"
+            
+            className="border border-3 border-dark w-100 object-fit-cover  rounded-2"
             style={{ maxHeight: "400px" }}
+         
           />
         </div>
       )}
@@ -54,29 +57,21 @@ function PostCard({ post }: PostCardProps) {
         </Card.Text>
       </Card.Body>
       <div className="d-flex gap-2 align-items-center">
-        {tag && tag.length > 0 ? (
-          <TagList tags={tag} />
-        ) : (
-          <span className="badge bg-success text-white border border-2 border-dark rounded-0 px-3 py-1 text-xs fw-bold">
-            #VIDABANANA
-          </span>
-        )}
+        <TagList tags={tags || []} />
       </div>
-      {/* Pie del post con etiquetas y contador de comentarios */}
-      {/* Pie del post con elementos alineados a la izquierda */}
+
       <Card.Footer className="d-flex flex-column flex-sm-row gap-3 align-items-start align-items-sm-center bg-white border-top  border-dark rounded-0 py-3 justify-content-start">
         {/* Sección de interacciones pegada a la izquierda junto a los tags */}
         <div className="d-flex align-items-center gap-3">
-          <span className="text-dark small ">🍌 72 Banano</span>
+          <span className="text-dark small ">🍌 72 Bananos</span>
           <span className="text-dark small ">💬 12 Comentarios</span>
-          
         </div>
         <Link
-            to="/destallePublicacion"
-            className="fw-bold text-decoration-none text-dark login-link ms-sm-auto"
-          >
-            Ver mas
-          </Link>
+          to="/destallePublicacion"
+          className="fw-bold text-decoration-none text-dark login-link ms-sm-auto"
+        >
+          Ver mas
+        </Link>
       </Card.Footer>
     </Card>
   );

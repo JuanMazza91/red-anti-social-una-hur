@@ -12,7 +12,7 @@ export type Post = {
   texto: string;
   imagenes?: PostImage[];
   autor:User;
-  tag?: Tag[];
+  tags?: Tag[];
   createdAt: Date;
   updatedAt: Date;
 }
