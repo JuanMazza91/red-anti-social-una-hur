@@ -28,3 +28,17 @@ export const crearComentario = async (
 
   return response.json();
 };
+
+export const eliminarComentario = async (comentarioId: string) => {
+  const response = await fetch(`${API_URL}/${comentarioId}`, {
+    method: "DELETE",
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    console.error("Error backend:", errorData);
+    throw new Error("Error al eliminar comentario");
+  }
+
+  return response.json();
+};

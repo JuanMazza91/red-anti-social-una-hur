@@ -5,6 +5,7 @@ import type { Comment } from "../types/Index";
 import AsideNavCard from "../components/AsideNavCard"
 import AsideNoticias from "../components/AsideNoticias"
 import "../style/PostDetail.css"
+import { useAuth } from "../context/LoginContext";
 
 import DetailPostCard from "../components/DetailPostCard";
 import CommentSection from "../components/CommentSection";
@@ -20,6 +21,7 @@ function PostDetail() {
   const [post, setPost] = useState<Post>();
   const [comments, setComments] = useState<Comment[]>([]);
   const [loading, setLoading] = useState(true);
+  const { usuarioActual } = useAuth();
 
   useEffect(() => {
     const cargarDatos = async () => {
@@ -43,7 +45,10 @@ function PostDetail() {
     cargarDatos();
   }, [id]);
 
-  
+  const handleUpdatePost = (postActualizado: Post) => {
+      setPost((postActualizado)
+    );
+  }
 
   if (loading) {
     return <p className="text-center mt-4">Cargando...</p>;
@@ -65,8 +70,8 @@ function PostDetail() {
             <AsideNavCard />
 
             <main className="col-md-6">
-                <DetailPostCard post={post} />
-                <CommentSection comments={comments} postId={post._id} setComments={setComments} setPost={setPost}/>
+                <DetailPostCard post={post} onUpdatePost={handleUpdatePost}/>
+                <CommentSection comments={comments} postId={post._id} setComments={setComments} setPost={setPost} usuario={usuarioActual}/>
             </main>
 
             <aside
