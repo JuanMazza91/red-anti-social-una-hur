@@ -1,24 +1,49 @@
 import { Card } from "react-bootstrap";
-import type { Post } from "../types/Index";
+import type { PostCardProps} from "../types/Index";
 import TagList from "./TagList";
 import { Link } from "react-router-dom";
 import { useRelativeTime } from "../hooks/useRelativeTime";
 
+import { useAuth } from "../context/LoginContext"; // 🍌 Importamos useAuth
+import { darBananoAlPost } from "../api/PostApi"; // 🍌 Importamos el servicio agrupado
 
-type PostCardProps = {
-  post: Post;
-};
 
-function PostCard({ post }: PostCardProps) {
-  const { autor, texto, imagenes, tags} = post;
+function PostCard({ post, onUpdatePost }: PostCardProps) {
+  const { autor, texto, imagenes, tags, bananos } = post;
+  const { usuarioActual } = useAuth(); // 🍌 Consumimos el usuario logueado en la selva
   const fechaRelativa = useRelativeTime(post.createdAt);
-  console.log("PostCard", post._id, post.comentarios?.length);
+
+  // Saber si el chimpancé actual ya le dio Banano a esta publicación
+  const yaDioBanano = (bananos || []).includes(usuarioActual?._id || "");
+
+  // 🍌 Función interactiva para dar/quitar Banano
+  const handleBananoClick = async () => {
+    if (!usuarioActual) {
+      alert("¡OOK! Debes estar logueado en la manada para dar bananos 🐵");
+      return;
+    }
+
+    try {
+      // Llamamos al servicio pasando el ID del post y el ID del usuario actual
+      const bananosActualizados = await darBananoAlPost(
+        post._id,
+        usuarioActual._id,
+      );
+
+      // Le avisamos al componente padre que actualice este post específico con la nueva lista de bananos
+
+      onUpdatePost({ ...post, bananos: bananosActualizados });
+    } catch (error) {
+      console.error("Error al procesar el banano en PostCard:", error);
+    }
+  };
+
   return (
     <Card className="border border-3 border-dark rounded-0 banana-shadow mb-5 bg-white">
       {/* Cabecera del post con info del autor y fecha */}
-      <Card.Header className="d-flex align-items-center rounded-0 border-bottom  py-3">
+      <Card.Header className="d-flex align-items-center rounded-0 border-bottom py-3">
         <div>
-          <Card.Title className="mb-0 fs-5 fw-bold text-dark font-headline ">
+          <Card.Title className="mb-0 fs-5 fw-bold text-dark font-headline">
             {autor?.nickname || "Monke Anónimo"}
           </Card.Title>
           <Card.Text className="text-muted small fw-bold mt-1">
@@ -35,33 +60,87 @@ function PostCard({ post }: PostCardProps) {
       </Card.Body>
 
       {/* Imagen del post con borde inferior negro grueso si existe */}
-      {/* Imagen del post con borde inferior negro grueso si existe */}
       {imagenes && imagenes.length > 0 && (
-        /* CAMBIO 1: Agregamos p-3 acá para que genere el aire/margen uniforme hacia adentro */
-        <div className="overflow-hidden bg-light p-3">
-          <Card.Img
-            variant="top"
-            src={imagenes[0].url}
-            alt="Imagen del post"
-            
-            className="border border-3 border-dark w-100 object-fit-cover  rounded-2"
-            style={{ maxHeight: "400px" }}
-         
-          />
+        <div className="bg-light p-3">
+          {/* 🍌 Si hay más de 1 imagen, usamos una Fila pura de Bootstrap */}
+          {imagenes.length > 1 ? (
+            <div className="row g-2 m-0">
+              {/* COLUMNA 1 (Imagen Izquierda) */}
+              <div className="col-6 p-0">
+                <Card.Img
+                  variant="top"
+                  src={imagenes[0].url}
+                  alt="Imagen del post 1"
+                  className="border border-3 border-dark w-100 object-fit-cover rounded-2"
+                  style={{ height: "300px" }}
+                />
+              </div>
+
+              {/* COLUMNA 2 (Imagen Derecha con posible contador) */}
+              <div className="col-6 p-0 position-relative">
+                <img
+                  src={imagenes[1].url}
+                  alt="Imagen del post 2"
+                  className="border border-3 border-dark w-100 object-fit-cover rounded-2"
+                  style={{ height: "300px" }}
+                />
+
+                {/* CAPA OSCURA CON EL "+X" (Solo si hay estrictamente MÁS de 2 imágenes) */}
+                {imagenes.length > 2 && (
+                  <div
+                    className="position-absolute top-0 start-0 w-100 h-100 bg-dark bg-opacity-50 border border-3 border-dark rounded-2 d-flex align-items-center justify-content-center"
+                    style={{ pointerEvents: "none" }}
+                  >
+                    <span className="text-white fs-2 fw-bold font-headline">
+                      +{imagenes.length - 2}
+                    </span>
+                  </div>
+                )}
+              </div>
+            </div>
+          ) : (
+            /* 🍌 Si hay UNA sola imagen, se estira al 100% normal */
+            <div className="w-100">
+              <Card.Img
+                variant="top"
+                src={imagenes[0].url}
+                alt="Imagen del post"
+                className="border border-3 border-dark w-100 object-fit-cover rounded-2"
+                style={{ maxHeight: "400px" }}
+              />
+            </div>
+          )}
         </div>
       )}
 
-      
-      <div className="d-flex gap-2 align-items-center mt-3">
+      {/* Cuerpo del post con el texto */}
+      <Card.Body className="p-4">
+        <Card.Text className="fs-7" style={{ lineHeight: "1.5" }}>
+          {texto}
+        </Card.Text>
+      </Card.Body>
+      <div className="d-flex gap-2 align-items-center">
         <TagList tags={tags || []} />
       </div>
 
-      <Card.Footer className="d-flex flex-column flex-sm-row gap-3 align-items-start align-items-sm-center bg-white border-top  border-dark rounded-0 py-3 justify-content-start">
+      <Card.Footer className="d-flex flex-column flex-sm-row gap-3 align-items-start align-items-sm-center bg-white border-top border-dark rounded-0 py-3 justify-content-start">
         {/* Sección de interacciones pegada a la izquierda junto a los tags */}
         <div className="d-flex align-items-center gap-3">
-          <span className="text-dark small ">🍌 72 Bananos</span>
-          
-          <span className="text-dark small ">💬 {post.comentarios?.length || 0} Comentarios</span>
+          {/* 🍌 Botón dinámico de Bananos */}
+          <span
+            onClick={handleBananoClick}
+            style={{ cursor: "pointer", userSelect: "none" }}
+            className={`small fw-bold transition-all ${yaDioBanano ? "text-warning" : "text-dark"}`}
+            title={yaDioBanano ? "Quitar banano" : "Dar banano"}
+          >
+            🍌 {bananos ? bananos.length : 0} Banano
+          </span>
+
+          {/* Cantidad de comentarios dinámica */}
+          <span className="text-dark small">
+            💬 {post.comentarios ? post.comentarios.length : 0}{" "}
+            {post.comentarios?.length === 1 ? "Comentario" : "Comentarios"}
+          </span>
         </div>
         <Link
           to={`/post/${post._id}`}

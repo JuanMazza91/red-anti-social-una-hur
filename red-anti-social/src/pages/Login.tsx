@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; // 🍌 PASO 1: Importar useNavigate
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/LoginContext'; 
 import '../style/Login.css';
 
 export const Login: React.FC = () => {
@@ -11,7 +12,8 @@ export const Login: React.FC = () => {
   const [nicknameError, setNicknameError] = useState<string | null>(null);
   const [passwordError, setPasswordError] = useState<string | null>(null);
 
-  const navigate = useNavigate(); // 🍌 PASO 2: Inicializar la función navigate
+  const navigate = useNavigate();
+  const { login } = useAuth(); // 🍌  Consumir la función del contexto global
 
   // Limpiador automático de errores viejo
   useEffect(() => {
@@ -24,14 +26,13 @@ export const Login: React.FC = () => {
     }
   }, [nicknameError, passwordError]);
 
-  // 🍌 PASO 3: Agregar el useEffect para controlar la redirección con delay de 2 segundos
+  // Controlador de la redirección con delay de 2 segundos
   useEffect(() => {
     if (successMessage) {
       const timer = setTimeout(() => {
-        navigate('/home'); // Te lleva a la ruta que configuramos antes
-      }, 2000); // 2000 milisegundos = 2 segundos
+        navigate('/home'); 
+      }, 2000);
 
-      // Es muy importante limpiar el timer si por algún motivo el componente se desmonta antes
       return () => clearTimeout(timer);
     }
   }, [successMessage, navigate]);
@@ -78,7 +79,11 @@ export const Login: React.FC = () => {
       }
 
       console.log('¡Ingreso exitoso!', usuarioExiste);
-      // Al actualizar este estado, se activa automáticamente el useEffect del PASO 3
+
+      // 🍌 PASO NUEVO: Guardamos el usuario en el estado global (y en localStorage mediante el Provider)
+      login(usuarioExiste); 
+
+      // Al actualizar este estado, se activa automáticamente el useEffect de la redirección
       setSuccessMessage(`¡BIENVENIDO A LA SELVA, ${nickName.toUpperCase()}! 🍌🌴🦧`);
 
     } catch (err) {
