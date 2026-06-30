@@ -1,12 +1,25 @@
 import { useState } from "react";
-import { Navbar, Container, Nav} from "react-bootstrap";
+import { Navbar, Container, Nav } from "react-bootstrap";
+import { useAuth } from "../context/LoginContext";
+import {  FiLogOut } from "react-icons/fi";
+import { useNavigate } from "react-router-dom"; 
+import "../style/Home.css"
+
 
 function NavbarApp() {
   const [busqueda, setBusqueda] = useState("");
+  const navigate = useNavigate(); 
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     console.log("Buscando:", busqueda);
+  };
+
+  const { usuarioActual, logout } = useAuth();
+  
+  const manejarLogout = () => {
+    logout(); 
+    navigate("/login"); 
   };
 
   return (
@@ -36,7 +49,7 @@ function NavbarApp() {
 
         <form className="d-flex" onSubmit={handleSearch}>
           <input
-            className="form-control me-2 rounded-0 border border-3 border-dark"
+            className="form-control me-2 rounded-0 border border-2 border-dark"
             type="search"
             placeholder="Buscar tags o usuarios..."
             aria-label="Buscar"
@@ -44,7 +57,7 @@ function NavbarApp() {
             onChange={(e) => setBusqueda(e.target.value)}
           />
           <button
-            className="btn btn-warning rounded-0 border border-3 border-dark font-headline banana-shadow-hover"
+            className="btn btn-warning rounded-0 border border-2 border-dark font-headline banana-shadow-hover"
             type="submit"
             style={{ backgroundColor: "#ffe245", fontWeight: "bold" }}
           >
@@ -52,8 +65,22 @@ function NavbarApp() {
           </button>
         </form>
 
-        <Nav className="align-items-center">
-          <Nav.Link href="#perfil" className="p-0"></Nav.Link>
+        <Nav>
+          <div>
+            <span className="font-headline">
+            
+              Hola, <span className="font-headline me-2">{usuarioActual?.nickname || "Monkey"}</span>
+            </span>
+            <button
+              onClick={manejarLogout}
+              className="btn btn-warning rounded-0 border border-2 border-dark font-headline banana-shadow-hover"
+              title="Cerrar sesión"
+              aria-label="Cerrar sesión"
+              style={{ backgroundColor: "#ffe245"}}
+            >
+              <FiLogOut strokeWidth={1.5} />
+            </button>
+          </div>
         </Nav>
       </Container>
     </Navbar>
