@@ -1,12 +1,15 @@
-import ReactDOM from "react-dom/client"; 
+import { StrictMode } from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App";
 import { BrowserRouter } from "react-router-dom";
-import "bootstrap-icons/font/bootstrap-icons.css";
-import "bootstrap/dist/css/bootstrap.min.css";
-import App from "./App"; 
+import { UserProvider } from "./context/UserContext";
 
-// Agregamos el signo '!' al final para decirle a TS "quédate tranquilo que este elemento existe"
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>
+  <StrictMode>
+    <BrowserRouter>
+      <UserProvider>
+        <App />
+      </UserProvider>
+    </BrowserRouter>
+  </StrictMode>
 );
