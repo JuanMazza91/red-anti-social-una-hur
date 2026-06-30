@@ -9,6 +9,12 @@ function PostsHome() {
   const [posts, setPosts] = useState<Post[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [cargando, setCargando] = useState<boolean>(true);
+ 
+  const handleUpdatePost = (postActualizado: Post) => {
+  setPosts((postsAnteriores) =>
+    postsAnteriores.map((p) => (p._id === postActualizado._id ? postActualizado : p))
+  );
+};
 
   // 1. Traer los posts de la base de datos al cargar la página
   useEffect(() => {
@@ -49,7 +55,7 @@ function PostsHome() {
             )}
 
             {posts.map((post) => (
-              <PostCard key={post._id} post={post} />
+              <PostCard key={post._id} post={post} onUpdatePost={handleUpdatePost}/>
             ))}
           </main>
 
