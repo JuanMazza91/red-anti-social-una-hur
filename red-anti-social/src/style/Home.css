@@ -1,0 +1,23 @@
+/* Estilos Neo-brutalistas */
+.banana-shadow {
+  box-shadow: 4px 4px 0px 0px rgba(0,0,0,1) !important;
+}
+
+.banana-shadow-hover {
+  transition: all 0.15s ease-in-out;
+}
+
+.banana-shadow-hover:hover {
+  box-shadow: 2px 2px 0px 0px rgba(0,0,0,1) !important;
+  transform: translate(2px, 2px);
+}
+
+/* Fuentes custom del prototipo */
+.font-headline {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-weight: 800;
+}
+
+.container-home{
+  background-color: #F9F9E0;
+}

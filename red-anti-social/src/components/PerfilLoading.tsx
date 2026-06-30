@@ -1,4 +1,4 @@
-import "../styles/PerfilEstados.css";
+import "../style/PerfilEstados.css";
 
 export function PerfilLoading() {
   return (

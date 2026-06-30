@@ -1,13 +1,15 @@
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
-import { useAuth } from "../hooks/useAuth";
+import { useAuth } from "../context/LoginContext";
 import { useUserPosts } from "../hooks/useUserPosts";
 
 import { PerfilLoading } from "../components/PerfilLoading";
 import { PerfilError } from "../components/PerfilError";
 import { Sidebar } from "../components/Sidebar";
-//import PostCard from "../components/PostCard";
+import PostCard from "../components/PostCard";
+
+import type { Post } from "../types/Index";
 
 import {
   PiSealCheck,
@@ -18,18 +20,25 @@ import {
   PiUserCheck,
 } from "react-icons/pi";
 
-import "../styles/Perfil.css";
+import "../style/Perfil.css";
 
 export function Perfil() {
   const navigate = useNavigate();
 
-  const { user, loading: authLoading } = useAuth();
+  const { usuarioActual: user, cargando: authLoading } = useAuth();
 
   const {
     misPosts,
+    setMisPosts,
     loading: perfilLoading,
     error,
   } = useUserPosts(authLoading ? undefined : user?._id);
+
+  const handleUpdatePost = (updatedPost: Post) => {
+    setMisPosts((prevPosts) =>
+      prevPosts.map((p) => (p._id === updatedPost._id ? updatedPost : p)),
+    );
+  };
 
   if (authLoading || perfilLoading) {
     return <PerfilLoading />;
@@ -61,7 +70,7 @@ export function Perfil() {
                 {/* --- AVATAR --- */}
                 <Col xs={12} lg={3} className="text-center">
                   <div className="perfil-avatar-wrapper">
-                    <div className="perfil-avatar">{/* AGREGAR AVATAR */}</div>
+                    {/* AGREGAR AVATAR */}
                     <div className="perfil-badge">
                       <PiSealCheck />
                     </div>
@@ -75,7 +84,7 @@ export function Perfil() {
                       <h1 className="perfil-nickname">{user.nickname}</h1>
                       <p className="perfil-location">
                         <PiMapPinFill />
-                        {/* AGREGAR UBICACIÓN */}
+                        {/* AGREGAR UBICACION */}
                       </p>
                     </Col>
 
@@ -151,7 +160,7 @@ export function Perfil() {
                 <Row className="g-4">
                   {misPosts.map((post) => (
                     <Col xs={12} key={post._id}>
-                      {/*  <PostCard post={post} />  */}
+                      <PostCard post={post} onUpdatePost={handleUpdatePost} />
                     </Col>
                   ))}
                 </Row>

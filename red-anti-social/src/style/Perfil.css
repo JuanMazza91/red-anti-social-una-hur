@@ -1,18 +1,22 @@
 .perfil-container {
   background: #f9f9e0;
   min-height: 100vh;
-  padding: 20px;
+  padding-top: 95px !important;
+  padding-right: 20px;
+  padding-bottom: 20px;
+  padding-left: 20px;
+  overflow: visible !important;
 }
 
 .perfil-inner {
   max-width: 1200px;
   margin: 0 auto;
+  height: auto !important;
+  overflow: visible !important;
 }
 
-/* --- SIDEBAR --- */
-.perfil-container .perfil-sidebar {
-  position: sticky;
-  top: 20px;
+.sidebar-contenedor.modo-perfil {
+  top: 20px !important;
 }
 
 /* --- HEADER --- */

@@ -1,15 +1,31 @@
-import { Route, Routes } from "react-router-dom";
-import { AuthProvider } from "./context/AuthProvider";
-
+import { Route, Routes, Navigate } from "react-router-dom";
+import NavbarApp from "./components/Navbar";
+import Home from "./pages/Home";
+import { Login } from "./pages/Login";
 import { Perfil } from "./pages/Perfil";
+import PostDetail from "./pages/PostDetail";
+
+import { ProtectedRoute } from "./routes/ProtectedRoute";
 
 function App() {
   return (
-    <AuthProvider>
+    <div>
+      <NavbarApp />
+
       <Routes>
-        <Route path="/perfil" element={<Perfil />} />
+        <Route path="/" element={<Navigate to="/home" replace />} />
+
+        {/* --- RUTAS PÚBLICAS --- */}
+        <Route path="/login" element={<Login />} />
+
+        {/* --- RUTAS PROTEGIDAS --- */}
+        <Route element={<ProtectedRoute />}>
+          <Route path="/home" element={<Home />} />
+          <Route path="/perfil" element={<Perfil />} />
+          <Route path="/post/:id" element={<PostDetail />} />
+        </Route>
       </Routes>
-    </AuthProvider>
+    </div>
   );
 }
 

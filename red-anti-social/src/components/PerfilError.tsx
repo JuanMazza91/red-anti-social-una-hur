@@ -1,5 +1,5 @@
 import { Button } from "react-bootstrap";
-import "../styles/PerfilEstados.css";
+import "../style/PerfilEstados.css";
 
 interface PerfilErrorProps {
   mensaje: string | null;

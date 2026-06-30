@@ -1,4 +1,9 @@
 .sidebar-contenedor {
+  position: sticky !important;
+  height: max-content !important;
+  z-index: 1000 !important;
+  top: 95px !important;
+
   background: #ffffff;
   border: 3px solid #1a1a1a;
   border-radius: 18px;
@@ -7,6 +12,14 @@
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+}
+
+.sidebar-contenedor:not(.modo-perfil) {
+  top: 95px !important;
+}
+
+.sidebar-contenedor.modo-perfil {
+  top: 95px !important;
 }
 
 /* --- PERFIL SUPERIOR --- */
@@ -150,7 +163,6 @@
   background-color: #ffd43f !important;
   border-color: #1a1a1a !important;
   box-shadow: 4px 4px 0 #1a1a1a !important;
-  transform: translate(-2px, -2px);
 }
 
 /* --- BOTONES ACTIVOS --- */
@@ -158,7 +170,6 @@
 .sidebar-link-destacado:not(.deshabilitado):not(.sidebar-btn-activo):hover {
   background-color: #fcfaf2;
   border-color: #1a1a1a;
-  transform: translate(-2px, -2px);
   box-shadow: 4px 4px 0 #1a1a1a;
 }
 

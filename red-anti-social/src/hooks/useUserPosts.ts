@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { obtenerPostsDeUsuario } from "../services/PostService";
-import type { Post } from "../types/Post";
+import type { Post } from "../types/Index";
 
 export function useUserPosts(userId: string | undefined) {
   const [misPosts, setMisPosts] = useState<Post[]>([]);
@@ -44,5 +44,5 @@ export function useUserPosts(userId: string | undefined) {
     };
   }, [userId]);
 
-  return { misPosts, loading, error };
+  return { misPosts, setMisPosts, loading, error };
 }

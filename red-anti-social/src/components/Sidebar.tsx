@@ -1,8 +1,9 @@
 import { Button } from "react-bootstrap";
 import { useNavigate, useLocation } from "react-router-dom";
-import { useAuth } from "../hooks/useAuth";
-import { PiSealCheck } from "react-icons/pi";
+import { useAuth } from "../context/LoginContext";
+
 import {
+  PiSealCheck,
   PiTree,
   PiChatCircle,
   PiNewspaper,
@@ -10,12 +11,13 @@ import {
   PiGear,
 } from "react-icons/pi";
 
-import "../styles/Sidebar.css";
+import "../style/Sidebar.css";
 
 export function Sidebar() {
   const navigate = useNavigate();
   const location = useLocation();
-  const { user, logout } = useAuth();
+
+  const { usuarioActual: user, logout } = useAuth();
 
   const esActivo = (ruta: string): string =>
     location.pathname === ruta ? "sidebar-btn-activo" : "";
@@ -26,12 +28,13 @@ export function Sidebar() {
     );
   };
 
+  const esPerfil = location.pathname === "/perfil";
+
   return (
-    <aside className="sidebar-contenedor">
+    <aside className={`sidebar-contenedor ${esPerfil ? "modo-perfil" : ""}`}>
       <div className="sidebar-perfil-tarjeta">
         {/* --- AVATAR --- */}
         <div className="perfil-avatar-wrapper">
-          <div className="perfil-avatar">{/* AGREGAR AVATAR */}</div>
           <div className="perfil-badge">
             <PiSealCheck />
           </div>
@@ -56,8 +59,8 @@ export function Sidebar() {
       <nav className="sidebar-menu">
         {/* --- ENLACES ACTIVOS --- */}
         <button
-          onClick={() => navigate("/")}
-          className={`sidebar-link ${esActivo("/")}`}
+          onClick={() => navigate("/home")}
+          className={`sidebar-link ${esActivo("/home")}`}
         >
           <PiTree /> MURO SELVÁTICO
         </button>
@@ -81,8 +84,8 @@ export function Sidebar() {
 
         <button
           type="button"
-          onClick={() => manejarBotonDeAdorno("Mis Lianas")}
-          className={`sidebar-link-destacado deshabilitado ${esActivo("/perfil")}`}
+          onClick={() => navigate("/perfil")}
+          className={`sidebar-link ${esActivo("/perfil")}`}
         >
           <PiGraph /> MIS LIANAS
         </button>
@@ -95,7 +98,7 @@ export function Sidebar() {
               navigate("/login");
             }
           }}
-          className={`sidebar-link ${esActivo("/ajustes")}`}
+          className="sidebar-link"
         >
           <PiGear /> CERRAR SESIÓN
         </button>
