@@ -1,0 +1,119 @@
+/* --- PERFIL LOADING Y ERROR --- */
+.perfil-contenedor {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1.5rem;
+  box-sizing: border-box;
+}
+
+.perfil-contenedor.pantalla-completa {
+  min-height: 100vh;
+  min-height: 100dvh;
+  background-color: #f9f9e0;
+}
+
+.perfil-caja-interna {
+  background: #ffffff;
+  border: 3px solid #1a1a1a;
+  border-radius: 16px;
+  box-shadow: 0 8px 0 #1a1a1a;
+  width: min(100%, 420px);
+  padding: 3rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.2rem;
+  text-align: center;
+  animation: aparecer 0.25s ease-out;
+}
+
+.perfil-icono {
+  font-size: 3.5rem;
+  line-height: 1;
+  user-select: none;
+}
+
+.perfil-titulo {
+  margin: 0;
+  font-family: "Arial Black", sans-serif;
+  font-size: 1.1rem;
+  font-weight: 900;
+  color: #1a1a1a;
+  letter-spacing: 1px;
+  line-height: 1.4;
+}
+
+.perfil-mensaje {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.5;
+  color: rgba(26, 26, 26, 0.7);
+}
+
+/* --- LOADING --- */
+.perfil-loading-spinner {
+  width: 56px;
+  height: 56px;
+  border: 6px solid #1a1a1a;
+  border-top-color: #f4d03f;
+  border-radius: 50%;
+  will-change: transform;
+  animation: girar 0.9s linear infinite;
+}
+
+/* --- ERROR --- */
+.perfil-error-btn {
+  width: 100%;
+  margin-top: 0.5rem;
+  padding: 0.8rem 1.5rem !important;
+  background: #f4d03f !important;
+  color: #1a1a1a !important;
+  border: 3px solid #1a1a1a !important;
+  border-radius: 0 !important;
+  font-family: "Arial Black", sans-serif;
+  font-size: 0.85rem !important;
+  font-weight: 900 !important;
+  box-shadow: 4px 4px 0 #1a1a1a;
+  cursor: pointer;
+  transition:
+    transform 0.08s ease,
+    box-shadow 0.08s ease;
+}
+
+.perfil-error-btn:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 5px 5px 0 #1a1a1a;
+}
+
+.perfil-error-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 #1a1a1a;
+}
+
+.perfil-error-btn:focus-visible {
+  outline: 3px solid #4dabf7;
+  outline-offset: 3px;
+}
+
+/* --- ANIMACIONES --- */
+@keyframes girar {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes aparecer {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
