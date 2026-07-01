@@ -3,10 +3,8 @@ import { Container, Button } from "react-bootstrap";
 import ModalPublication from "./ModalPublication";
 
 function Hero() {
-  // 1. Creamos el estado para controlar si el modal está abierto o cerrado
   const [showModal, setShowModal] = useState(false);
 
-  // Funciones limpias para abrir y cerrar
   const handleOpen = () => setShowModal(true);
   const handleClose = () => setShowModal(false);
 
@@ -14,11 +12,10 @@ function Hero() {
     <section
       className="w-100 py-5 text-center position-relative border-bottom border-4 border-dark"
       style={{
-        backgroundColor: "#3b6934", // El color verde de fondo
+        backgroundColor: "#3b6934",
         overflow: "hidden",
       }}
     >
-      {/* Fondo de puntitos GRISES decorativos */}
       <div
         className="position-absolute inset-0 pointer-events-none"
         style={{
@@ -65,14 +62,13 @@ function Hero() {
             fontWeight: "bold",
             letterSpacing: "1px",
           }}
-          onClick={handleOpen} // 2. Al hacer clic, abrimos el modal
+          onClick={handleOpen}
         >
           <span className="material-symbols-outlined fs-3"></span>
           Nuevo Post
         </Button>
       </Container>
 
-      {/* 3. Renderizamos el Modal pasándole las propiedades necesarias */}
       <ModalPublication show={showModal} handleClose={handleClose} />
     </section>
   );

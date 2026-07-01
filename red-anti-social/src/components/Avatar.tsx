@@ -1,30 +1,30 @@
 import type { User } from "../types/Index";
 
 type Props = {
-  user?: User | null;
+  user: User | string | undefined | null;
   size?: number;
 };
 
 export default function Avatar({ user, size = 40 }: Props) {
-  const fallback = "/avatars/mono1.jpeg";
+  let nombreImagen = "mono1.jpeg";
+  let nicknameAlt = "avatar";
 
-  const src = user?.avatar
-    ? `/avatars/${user.avatar}`
-    : fallback;
+  if (user && typeof user === "object") {
+    nombreImagen = user.avatar || "mono1.jpeg";
+    nicknameAlt = user.nickname || "avatar";
+  }
 
   return (
     <img
-      src={src}
-      alt={user?.nickname || "usuario"}
+      src={`/avatars/${nombreImagen}`}
+      alt={nicknameAlt}
       width={size}
       height={size}
       style={{
         borderRadius: "50%",
         objectFit: "cover",
         border: "2px solid #1A1A1A",
-      }}
-      onError={(e) => {
-        (e.target as HTMLImageElement).src = fallback;
+        flexShrink: 0,
       }}
     />
   );

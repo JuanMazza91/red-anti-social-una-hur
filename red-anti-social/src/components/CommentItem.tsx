@@ -2,6 +2,7 @@ import { useRelativeTime } from "../hooks/useRelativeTime";
 import type { Comment } from "../types/Comment";
 import type { User } from "../types/User";
 import { FaTrash } from "react-icons/fa";
+import Avatar from "./Avatar";
 
 type Props = {
   comment: Comment;
@@ -13,42 +14,23 @@ export default function CommentItem({ comment, usuario, onDelete }: Props) {
   const timeAgo = useRelativeTime(comment.createdAt);
 
   const puedeEliminar =
-    usuario &&
-    comment.autor &&
-    comment.autor._id === usuario._id;
+    usuario && comment.autor && comment.autor._id === usuario._id;
 
-
-    const avatar = comment.autor.avatar;
     console.log(comment)
   return (
     <div className="comment-card">
       <div className="comment-header">
-        
         {/* LEFT SIDE */}
         <div className="comment-user-info">
-          
           {/* 🐵 AVATAR */}
-            <img
-                src={`/avatars/${avatar}`}
-                alt="avatar"
-                style={{
-                    width: "45px",
-                    height: "45px",
-                    borderRadius: "50%",
-                    border: "2px solid #000",
-                    objectFit: "cover",
-                    flexShrink: 0
-              }}
-            />
+          {comment.autor && <Avatar user={comment.autor} size={35} />}
 
           <div>
             <div className="comment-author">
               {comment.autor?.nickname || "Usuario"}
             </div>
 
-            <div className="comment-date">
-              {timeAgo}
-            </div>
+            <div className="comment-date">{timeAgo}</div>
           </div>
         </div>
 
@@ -63,9 +45,7 @@ export default function CommentItem({ comment, usuario, onDelete }: Props) {
         )}
       </div>
 
-      <p className="comment-content">
-        {comment.contenido}
-      </p>
+      <p className="comment-content">{comment.contenido}</p>
     </div>
   );
 }

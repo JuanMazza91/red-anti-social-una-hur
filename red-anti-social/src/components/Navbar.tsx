@@ -5,6 +5,7 @@ import { FiLogOut } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import "../style/Home.css";
 import "../style/Navbar.css";
+import Avatar from "./Avatar";
 
 function NavbarApp() {
   const [busqueda, setBusqueda] = useState("");
@@ -15,11 +16,10 @@ function NavbarApp() {
     console.log("Buscando:", busqueda);
   };
 
-  const { usuarioActual, logout } = useAuth();
+  const { usuarioActual } = useAuth();
 
   const manejarLogout = () => {
-    logout();
-    navigate("/login");
+    navigate("/logout");
   };
 
   return (
@@ -68,19 +68,8 @@ function NavbarApp() {
 
         <Nav>
           <div className="navbar-user font-headline d-flex align-items-center gap-2">
+            {usuarioActual && <Avatar user={usuarioActual} size={40} />}
 
-            <img
-              src={`/avatars/${usuarioActual?.avatar || "mono1.jpeg"}`}
-              alt="avatar"
-              style={{
-                width: "40px",
-                height: "40px",
-                borderRadius: "50%",
-                border: "2px solid #000",
-                objectFit: "cover"
-              }}
-            />
-            
             <span>
               Hola,{" "}
               <span className="username-highlight">
