@@ -16,3 +16,7 @@
     color: #b02a37;
     transform: scale(1.15);
 }
+
+.card-title {
+    line-height: 1.1;
+}

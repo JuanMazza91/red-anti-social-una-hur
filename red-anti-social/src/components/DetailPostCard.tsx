@@ -84,23 +84,49 @@ function DetailPostCard({ post, onUpdatePost }: DetailPostCardProps) {
   return (
     <Card className="border border-3 border-dark rounded-0 banana-shadow mb-5 bg-white">
       {/* Cabecera del post con info del autor y fecha */}
-      <Card.Header className="d-flex justify-content-between align-items-center rounded-0 border-bottom py-3">
-        <div>
-          <Card.Title className="mb-0 fs-5 fw-bold text-dark font-headline">
-            {autor?.nickname || "Monke Anónimo"}
-          </Card.Title>
-          <Card.Text className="text-muted small fw-bold mt-1">
-            {fechaRelativa}
-          </Card.Text>
-        </div>
+      <Card.Header className="rounded-0 border-bottom py-3">
 
-        {puedeEliminar && (
+        <div className="d-flex justify-content-between align-items-center w-100">
+
+          {/* LEFT SIDE */}
+          <div className="d-flex align-items-center gap-2">
+
+            <img
+              src={`/avatars/${autor?.avatar || "mono1.jpeg"}`}
+              alt="avatar"
+              style={{
+                width: "45px",
+                height: "45px",
+                borderRadius: "50%",
+                border: "2px solid #000",
+                objectFit: "cover",
+                flexShrink: 0
+              }}
+            />
+
+            <div className="d-flex flex-column">
+              <span className="fw-bold text-dark font-headline">
+                {autor?.nickname || "Monke Anónimo"}
+              </span>
+
+              <span className="text-muted small fw-bold">
+                {fechaRelativa}
+              </span>
+            </div>
+
+          </div>
+
+          {/* RIGHT SIDE */}
+          {puedeEliminar && (
             <button
               className="delete-post-btn"
               onClick={handleDeletePost}
             >
               <FaTrash />
-            </button>)}
+            </button>
+          )}
+
+        </div>
 
       </Card.Header>
 

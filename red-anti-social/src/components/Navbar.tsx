@@ -67,7 +67,20 @@ function NavbarApp() {
         </form>
 
         <Nav>
-          <div className="navbar-user font-headline">
+          <div className="navbar-user font-headline d-flex align-items-center gap-2">
+
+            <img
+              src={`/avatars/${usuarioActual?.avatar || "mono1.jpeg"}`}
+              alt="avatar"
+              style={{
+                width: "40px",
+                height: "40px",
+                borderRadius: "50%",
+                border: "2px solid #000",
+                objectFit: "cover"
+              }}
+            />
+            
             <span>
               Hola,{" "}
               <span className="username-highlight">
