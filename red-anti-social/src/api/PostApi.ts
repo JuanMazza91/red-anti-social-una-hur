@@ -56,3 +56,38 @@ export const darBananoAlPost = async (postId: string, usuarioId: string): Promis
   if (!res.ok) throw new Error(data.message || 'Error al dar banano 🍌');
   return data.bananos;
 };
+
+
+
+
+
+export interface CreatePostData {
+  texto: string;
+  imagenes: string[]; // Strings planos como pide Joi
+  tags: string[];     // Array de IDs en string
+}
+
+export const crearPost = async (postData: CreatePostData, token?: string): Promise<Post> => {
+  const headers: Record<string, string> = {
+    "Content-Type": "application/json",
+  };
+
+  if (token) {
+    headers["Authorization"] = `Bearer ${token}`;
+  }
+
+  const response = await fetch("http://localhost:3000/posts", {
+    method: "POST",
+    headers,
+    body: JSON.stringify(postData), // <-- Envía el formato chico (CreatePostData)
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data?.error || data?.message || "Error al lanzar la huella");
+  }
+
+  // <-- Retorna el Post completo con su _id, autor populado, bananos, etc.
+  return data as Post; 
+};

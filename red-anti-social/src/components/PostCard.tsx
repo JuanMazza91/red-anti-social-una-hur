@@ -52,12 +52,6 @@ function PostCard({ post, onUpdatePost }: PostCardProps) {
         </div>
       </Card.Header>
 
-      {/* Cuerpo del post con el texto */}
-      <Card.Body className="p-4">
-        <Card.Text className="fs-7 " style={{ lineHeight: "1.5" }}>
-          {texto}
-        </Card.Text>
-      </Card.Body>
 
       {/* Imagen del post con borde inferior negro grueso si existe */}
       {imagenes && imagenes.length > 0 && (

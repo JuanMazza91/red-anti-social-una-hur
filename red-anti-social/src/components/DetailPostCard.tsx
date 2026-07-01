@@ -1,11 +1,10 @@
 import { Card } from "react-bootstrap";
-import type { PostCardProps} from "../types/Index";
+import type { PostCardProps } from "../types/Index";
 import TagList from "./TagList";
 import { useRelativeTime } from "../hooks/useRelativeTime";
 
 import { useAuth } from "../context/LoginContext"; // 🍌 Importamos useAuth
 import { darBananoAlPost } from "../api/PostApi"; // 🍌 Importamos el servicio agrupado
-
 
 function DetailPostCard({ post, onUpdatePost }: PostCardProps) {
   const { autor, texto, imagenes, tags, bananos } = post;
@@ -52,11 +51,6 @@ function DetailPostCard({ post, onUpdatePost }: PostCardProps) {
       </Card.Header>
 
       {/* Cuerpo del post con el texto */}
-      <Card.Body className="p-4">
-        <Card.Text className="fs-7 " style={{ lineHeight: "1.5" }}>
-          {texto}
-        </Card.Text>
-      </Card.Body>
 
       {/* Imagen del post con borde inferior negro grueso si existe */}
       {imagenes && imagenes.length > 0 && (
