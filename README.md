@@ -160,7 +160,7 @@ npm -v
 ## Clonar el repositorio
 
 ```bash
-git clone [<URL_DEL_REPOSITORIO>](https://github.com/JuanMazza91/red-anti-social-una-hur.git)
+git clone https://github.com/JuanMazza91/red-anti-social-una-hur.git
 ```
 
 Ingresar al proyecto:
