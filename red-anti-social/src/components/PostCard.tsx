@@ -97,7 +97,7 @@ function PostCard({ post, onUpdatePost, onDeletePost }: PostCardProps) {
           <div className="d-flex align-items-center gap-2">
 
             <img
-              src={`/avatars/${autor?.avatar || "mono1.jpeg"}`}
+              src={`/avatars/${autor?.avatar}`}
               alt="avatar"
               style={{
                 width: "45px",

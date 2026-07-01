@@ -39,7 +39,6 @@ function PostsHome() {
   };
   // En el useEffect
   useEffect(() => {
-    console.log("HOME MONTADO");
 
     cargarPosts();
   }, []);

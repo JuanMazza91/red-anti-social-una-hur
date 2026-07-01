@@ -17,6 +17,9 @@ export default function CommentItem({ comment, usuario, onDelete }: Props) {
     comment.autor &&
     comment.autor._id === usuario._id;
 
+
+    const avatar = comment.autor.avatar;
+    console.log(comment)
   return (
     <div className="comment-card">
       <div className="comment-header">
@@ -25,11 +28,18 @@ export default function CommentItem({ comment, usuario, onDelete }: Props) {
         <div className="comment-user-info">
           
           {/* 🐵 AVATAR */}
-          <img
-            src={`/avatars/${comment.autor?.avatar || "mono1.jpeg"}`}
-            alt="avatar"
-            className="comment-avatar"
-          />
+            <img
+                src={`/avatars/${avatar}`}
+                alt="avatar"
+                style={{
+                    width: "45px",
+                    height: "45px",
+                    borderRadius: "50%",
+                    border: "2px solid #000",
+                    objectFit: "cover",
+                    flexShrink: 0
+              }}
+            />
 
           <div>
             <div className="comment-author">
