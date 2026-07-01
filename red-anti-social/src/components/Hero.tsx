@@ -1,9 +1,17 @@
+import { useState } from "react";
 import { Container, Button } from "react-bootstrap";
+import ModalPublication from "./ModalPublication";
 
 function Hero() {
+  // 1. Creamos el estado para controlar si el modal está abierto o cerrado
+  const [showModal, setShowModal] = useState(false);
+
+  // Funciones limpias para abrir y cerrar
+  const handleOpen = () => setShowModal(true);
+  const handleClose = () => setShowModal(false);
+
   return (
     <section
-   
       className="w-100 py-5 text-center position-relative border-bottom border-4 border-dark"
       style={{
         backgroundColor: "#3b6934", // El color verde de fondo
@@ -14,7 +22,6 @@ function Hero() {
       <div
         className="position-absolute inset-0 pointer-events-none"
         style={{
-    
           backgroundImage:
             "radial-gradient(rgba(0, 0, 0, 0.15) 2px, transparent 2px)",
           backgroundSize: "32px 32px",
@@ -24,7 +31,6 @@ function Hero() {
           bottom: 0,
         }}
       />
-
 
       <Container className="py-5 position-relative z-1 d-flex flex-column align-items-center">
         {/* Título Principal */}
@@ -53,18 +59,21 @@ function Hero() {
         {/* Botón de Acción Neo-brutalista */}
         <Button
           size="lg"
-          className="px-5 py-3 rounded-0 text-dark font-headline border border-4 border-dark banana-shadow banana-shadow-hover d-inline-flex align-items-center gap-3"
+          className="px-5 py-3 rounded-0 text-dark font-headline border border-4 border-dark banana-shadow banana-shadow-hover d-inline-flex align-items-center gap-2"
           style={{
             backgroundColor: "#ffe245",
             fontWeight: "bold",
             letterSpacing: "1px",
           }}
+          onClick={handleOpen} // 2. Al hacer clic, abrimos el modal
         >
           <span className="material-symbols-outlined fs-3"></span>
           Nuevo Post
         </Button>
       </Container>
-      
+
+      {/* 3. Renderizamos el Modal pasándole las propiedades necesarias */}
+      <ModalPublication show={showModal} handleClose={handleClose} />
     </section>
   );
 }

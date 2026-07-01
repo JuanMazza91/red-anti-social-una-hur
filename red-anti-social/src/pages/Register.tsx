@@ -19,7 +19,7 @@ export const Register: React.FC = () => {
     password: "",
   });
 
-  const [avatar, setAvatar] = useState("mono1.png");
+  const [avatar, setAvatar] = useState("mono1.jpeg");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -82,7 +82,7 @@ export const Register: React.FC = () => {
     <main className="register-page">
       <section className="register-card">
         <div className="register-logo">
-          <img src="/public/unahur.png" alt="Logo UNAHUR" />
+          <img src="/LogoAntiSocial.jpeg" alt="Logo UNAHUR" />
         </div>
 
         <div className="register-tag">#BananaTime</div>

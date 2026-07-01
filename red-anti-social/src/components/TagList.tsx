@@ -1,10 +1,7 @@
 
 import { Badge } from 'react-bootstrap';
-import type { Tag } from '../types/Index'; 
+import type { TagListProps } from '../types/Index'; 
 
-type TagListProps = {
-  tags: Tag[];
-};
 
 function TagList({tags}:TagListProps) {
   return (

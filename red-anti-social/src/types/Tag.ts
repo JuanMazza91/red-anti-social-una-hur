@@ -5,3 +5,7 @@ export type Tag = {
    nombre: string;
     posts: Post[]
 }
+
+export type TagListProps = {
+  tags: Tag[];
+};
