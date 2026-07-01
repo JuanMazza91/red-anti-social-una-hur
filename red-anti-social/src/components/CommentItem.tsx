@@ -4,6 +4,7 @@ import type { User } from "../types/User";
 import { FaTrash } from "react-icons/fa";
 import Avatar from "./Avatar";
 
+
 type Props = {
   comment: Comment;
   usuario: User | null;
@@ -16,14 +17,17 @@ export default function CommentItem({ comment, usuario, onDelete }: Props) {
   const puedeEliminar =
     usuario && comment.autor && comment.autor._id === usuario._id;
 
-    console.log(comment)
+
+    console.log("COMMENT", comment);
+    console.log("AUTOR", comment.autor);
+    console.log("AVATAR", comment.autor?.avatar);
   return (
     <div className="comment-card">
       <div className="comment-header">
-        {/* LEFT SIDE */}
+
         <div className="comment-user-info">
-          {/* 🐵 AVATAR */}
-          {comment.autor && <Avatar user={comment.autor} size={35} />}
+
+            {comment.autor && <Avatar user={comment.autor} size={35} />}
 
           <div>
             <div className="comment-author">
