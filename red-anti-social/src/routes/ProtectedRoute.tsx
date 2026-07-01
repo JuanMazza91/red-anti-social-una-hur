@@ -5,18 +5,7 @@ export function ProtectedRoute() {
   const { usuarioActual, cargando } = useAuth();
 
   if (cargando) {
-    return (
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "100vh",
-        }}
-      >
-        <p>Verificando sesión del simio...</p>
-      </div>
-    );
+    return <p className="text-center mt-5">Verificando sesión del simio...</p>;
   }
 
   if (!usuarioActual) {

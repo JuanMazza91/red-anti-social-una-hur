@@ -5,6 +5,7 @@ import { FiLogOut } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import "../style/Home.css";
 import "../style/Navbar.css";
+import Avatar from "./Avatar";
 
 function NavbarApp() {
   const [busqueda, setBusqueda] = useState("");
@@ -66,7 +67,9 @@ function NavbarApp() {
         </form>
 
         <Nav>
-          <div className="navbar-user font-headline">
+          <div className="navbar-user font-headline d-flex align-items-center gap-2">
+            {usuarioActual && <Avatar user={usuarioActual} size={40} />}
+
             <span>
               Hola,{" "}
               <span className="username-highlight">

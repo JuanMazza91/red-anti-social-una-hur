@@ -12,6 +12,8 @@ import {
   PiSignOut,
 } from "react-icons/pi";
 
+import Avatar from "./Avatar";
+
 import "../style/Sidebar.css";
 
 export function Sidebar() {
@@ -55,11 +57,7 @@ export function Sidebar() {
         <div className="perfil-avatar-wrapper">
           <div className="perfil-avatar">
             {user?.avatar ? (
-              <img
-                src={`/avatars/${user.avatar}`}
-                alt="Avatar del chimpancé"
-                className="w-100 h-100 object-fit-cover"
-              />
+              <Avatar user={user} size={160} />
             ) : (
               <span style={{ fontSize: "3rem" }}>🐵</span>
             )}

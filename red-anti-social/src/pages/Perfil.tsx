@@ -2,8 +2,7 @@ import { Container, Row, Col, Button } from "react-bootstrap";
 import { Navigate, useNavigate } from "react-router-dom";
 
 import { useAuth } from "../context/LoginContext";
-import { useUserPosts } from "../hooks/useUserPosts"; // 🍌 Tu hook personalizado corregido
-
+import { useUserPosts } from "../hooks/useUserPosts";
 import { Sidebar } from "../components/Sidebar";
 import PostCard from "../components/PostCard";
 
@@ -18,6 +17,8 @@ import {
   PiUserCheck,
 } from "react-icons/pi";
 
+import Avatar from "../components/Avatar";
+
 import "../style/Perfil.css";
 
 export function Perfil() {
@@ -25,7 +26,6 @@ export function Perfil() {
 
   const { usuarioActual: user, cargando: authLoading } = useAuth();
 
-  // 🍌 Consumimos el hook extrayendo 'loading' de forma exacta a su retorno actual
   const {
     misPosts,
     setMisPosts,
@@ -33,14 +33,12 @@ export function Perfil() {
     loading: perfilLoading,
   } = useUserPosts(authLoading ? undefined : user?._id);
 
-  // 🍌 Actualiza los posts del perfil en tiempo real (ej. al dar un banano)
   const handleUpdatePost = (updatedPost: Post) => {
     setMisPosts((prevPosts) =>
       prevPosts.map((p) => (p._id === updatedPost._id ? updatedPost : p)),
     );
   };
 
-  // 🍌 Elimina el post del estado local para que desaparezca al instante visualmente
   const handleDeletePost = (postId: string) => {
     setMisPosts((prevPosts) => prevPosts.filter((p) => p._id !== postId));
   };
@@ -75,12 +73,8 @@ export function Perfil() {
                 <Col xs={12} lg={3} className="text-center">
                   <div className="perfil-avatar-wrapper">
                     <div className="perfil-avatar">
-                      {user?.avatar ? (
-                        <img
-                          src={`/avatars/${user.avatar}`}
-                          alt={`Avatar de ${user.nickname}`}
-                          className="w-100 h-100 object-fit-cover"
-                        />
+                      {user ? (
+                        <Avatar user={user} size={160} />
                       ) : (
                         <span style={{ fontSize: "4rem" }}>🐵</span>
                       )}

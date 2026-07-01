@@ -8,7 +8,6 @@ export function useUserPosts(usuarioId: string | undefined) {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    // Si no hay ID de usuario (porque está cargando la sesión), no hacemos nada todavía
     if (!usuarioId) {
       setLoading(false);
       return;
@@ -19,14 +18,12 @@ export function useUserPosts(usuarioId: string | undefined) {
         setLoading(true);
         const data = await obtenerPosts();
 
-        // Limpiamos los datos de la API igual que en el Home
         const postsLimpios = Array.isArray(data)
           ? data
           : ((data as Record<string, unknown>)?.posts ??
             (data as Record<string, unknown>)?.data ??
             []);
 
-        // 🍌 Filtramos para quedarnos solo con los del chimpancé actual
         const filtrados = (postsLimpios as Post[]).filter(
           (post: Post) => post.autor && post.autor._id === usuarioId,
         );
@@ -46,8 +43,7 @@ export function useUserPosts(usuarioId: string | undefined) {
     };
 
     cargarYFiltrar();
-  }, [usuarioId]); // 🍌 Se vuelve a ejecutar si cambia el usuarioId
+  }, [usuarioId]);
 
-  // Retornamos todo lo necesario, incluyendo setMisPosts para que las vistas puedan actualizarse en tiempo real
   return { misPosts, setMisPosts, loading, error };
 }
