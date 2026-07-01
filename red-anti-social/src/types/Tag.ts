@@ -1,10 +1,10 @@
-import type { Post } from './Post';
+import type { Post } from "./Post";
 
 export type Tag = {
-    _id:string;
-   nombre: string;
-    posts: Post[]
-}
+  _id: string;
+  nombre: string;
+  posts: Post[];
+};
 
 export type TagListProps = {
   tags: Tag[];

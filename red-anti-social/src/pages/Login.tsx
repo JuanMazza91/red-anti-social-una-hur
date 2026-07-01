@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/LoginContext'; 
-import '../style/Login.css';
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/LoginContext";
+import "../style/Login.css";
 
 export const Login: React.FC = () => {
-  const [nickName, setNickName] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
+  const [nickName, setNickName] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
@@ -13,7 +13,7 @@ export const Login: React.FC = () => {
   const [passwordError, setPasswordError] = useState<string | null>(null);
 
   const navigate = useNavigate();
-  const { login } = useAuth(); // 🍌  Consumir la función del contexto global
+  const { login } = useAuth();
 
   // Limpieza de errores
   useEffect(() => {
@@ -28,15 +28,15 @@ export const Login: React.FC = () => {
   }, [nicknameError, passwordError]);
 
   // Controlador de la redirección con delay de 2 segundos
-useEffect(() => {
-  if (successMessage) {
-    const timer = setTimeout(() => {
-      navigate("/home");
-    }, 2000);
+  useEffect(() => {
+    if (successMessage) {
+      const timer = setTimeout(() => {
+        navigate("/home");
+      }, 2000);
 
-    return () => clearTimeout(timer);
-  }
-}, [successMessage, navigate]);
+      return () => clearTimeout(timer);
+    }
+  }, [successMessage, navigate]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -48,60 +48,57 @@ useEffect(() => {
     let tieneErrores = false;
 
     if (!nickName.trim()) {
-      setNicknameError('¡OOK OOK! Ingresá el nombre de tu chimpancé.');
+      setNicknameError("¡OOK OOK! Ingresá el nombre de tu chimpancé.");
       tieneErrores = true;
     }
 
     if (!password.trim()) {
-      setPasswordError('¡OOK! Falta la clave de la selva.');
+      setPasswordError("¡OOK! Falta la clave de la selva.");
       tieneErrores = true;
     } else if (password.length < 6) {
-      setPasswordError('¡OOK! La clave es corta. Mínimo 6 caracteres.');
+      setPasswordError("¡OOK! La clave es corta. Mínimo 6 caracteres.");
       tieneErrores = true;
     }
 
     if (tieneErrores) return;
 
     try {
-      const response = await fetch('http://localhost:3000/usuarios');
+      const response = await fetch("http://localhost:3000/usuarios");
       const usuarios = await response.json();
 
       const usuarioExiste = usuarios.find(
-        (u: any) => u.nickname?.toLowerCase() === nickName.toLowerCase()
+        (u: any) => u.nickname?.toLowerCase() === nickName.toLowerCase(),
       );
 
       if (!usuarioExiste) {
-        setNicknameError('¡OOK! Ese chimpancé no existe en la selva.');
+        setNicknameError("¡OOK! Ese chimpancé no existe en la selva.");
         return;
       }
 
-      if (password !== '123456') {
-        setPasswordError('Clave incorrecta. ¡Lanzamiento de banana!');
+      if (password !== "123456") {
+        setPasswordError("Clave incorrecta. ¡Lanzamiento de banana!");
         return;
       }
 
       setSuccessMessage(
-        `¡BIENVENIDO A LA SELVA, ${nickName.toUpperCase()}! 🍌🌴🦧`
+        `¡BIENVENIDO A LA SELVA, ${nickName.toUpperCase()}! 🍌🌴🦧`,
       );
-      console.log('¡Ingreso exitoso!', usuarioExiste);
+      console.log("¡Ingreso exitoso!", usuarioExiste);
 
-      // 🍌 PASO NUEVO: Guardamos el usuario en el estado global (y en localStorage mediante el Provider)
-      login(usuarioExiste); 
+      login(usuarioExiste);
 
-      // Al actualizar este estado, se activa automáticamente el useEffect de la redirección
-      setSuccessMessage(`¡BIENVENIDO A LA SELVA, ${nickName.toUpperCase()}! 🍌🌴🦧`);
-
+      setSuccessMessage(
+        `¡BIENVENIDO A LA SELVA, ${nickName.toUpperCase()}! 🍌🌴🦧`,
+      );
     } catch {
-      setPasswordError('Error al entrar a la selva.');
+      setPasswordError("Error al entrar a la selva.");
     }
   };
 
   return (
     <div className="login-container">
       <div className="login-card">
-        <h2 className="login-title">
-          🦧 UNAHUR Anti-Social Net 🦧
-        </h2>
+        <h2 className="login-title">🦧 UNAHUR Anti-Social Net 🦧</h2>
 
         <p className="login-subtitle">
           <i>Jungle Feed - Login</i>
@@ -126,7 +123,7 @@ useEffect(() => {
 
           <div className="password-wrapper">
             <input
-              type={showPassword ? 'text' : 'password'}
+              type={showPassword ? "text" : "password"}
               placeholder="••••••"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -138,7 +135,7 @@ useEffect(() => {
               className="password-toggle-btn"
               onClick={() => setShowPassword(!showPassword)}
             >
-              {showPassword ? '🐵' : '🙈'}
+              {showPassword ? "🐵" : "🙈"}
             </button>
           </div>
 
@@ -156,11 +153,11 @@ useEffect(() => {
             INGRESAR A LA MANADA 🍌
           </button>
 
-          {/* REGISTER BUTTON (CORREGIDO) */}
+          {/* REGISTER BUTTON */}
           <button
             type="button"
             className="login-register-button"
-            onClick={() => navigate('/register')}
+            onClick={() => navigate("/register")}
           >
             Registrarse En La Manada 📝
           </button>

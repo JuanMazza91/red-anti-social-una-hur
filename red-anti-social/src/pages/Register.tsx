@@ -10,7 +10,7 @@ type RegisterForm = {
   password: string;
 };
 
-const avatares = ["mono1.jpeg", "mono2.jpeg", "mono3.jpeg", "mono4.jpg"];
+const avatares = ["mono1.jpeg", "mono2.jpeg", "mono3.jpeg", "mono4.jpeg"];
 
 export const Register: React.FC = () => {
   const [form, setForm] = useState<RegisterForm>({
