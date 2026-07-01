@@ -2,6 +2,7 @@ import { Route, Routes, Navigate, useLocation } from "react-router-dom";
 import NavbarApp from "./components/Navbar";
 import Home from "./pages/Home";
 import { Login } from "./pages/Login";
+import { Register } from "./pages/Register";
 import { Perfil } from "./pages/Perfil";
 import PostDetail from "./pages/PostDetail";
 
@@ -23,6 +24,7 @@ function App() {
 
         {/* --- RUTAS PÚBLICAS --- */}
         <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
 
         <Route path="/logout" element={<PerfilLogout />} />
 

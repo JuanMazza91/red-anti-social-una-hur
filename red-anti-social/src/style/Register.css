@@ -1,0 +1,242 @@
+.register-page {
+  min-height: 100vh;
+  background: #f9f9e0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.register-card {
+  width: 100%;
+  max-width: 360px;
+  background: #f9f9e0;
+  border: 3px solid #111;
+  border-radius: 8px;
+  padding: 38px 28px 28px;
+  position: relative;
+  box-shadow: 6px 6px 0 #111;
+}
+
+.register-logo {
+  width: 82px;
+  height: 82px;
+  border: 2px solid #111;
+  border-radius: 50%;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 24px;
+  overflow: hidden;
+}
+
+.register-logo img {
+  width: 115%;
+  height: 115%;
+  object-fit: cover;
+  display: block;
+  transform: translateX(-1px) rotate(-1deg);
+}
+
+
+.register-logo small {
+  margin-top: 4px;
+}
+
+.register-tag {
+  position: absolute;
+  top: -12px;
+  right: -12px;
+  background: #356b2f;
+  color: white;
+  border: 2px solid #111;
+  padding: 5px 10px;
+  font-size: 12px;
+  font-weight: bold;
+  transform: rotate(6deg);
+}
+
+.register-header {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.register-header h1 {
+  color: #2f6b32;
+  font-size: 34px;
+  line-height: 1.05;
+  margin: 0;
+  font-weight: 900;
+}
+
+.register-header p {
+  margin: 8px 0 0;
+  font-size: 13px;
+}
+
+.register-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.register-field label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 11px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.register-input-wrapper {
+  position: relative;
+}
+
+.register-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #356b2f;
+  font-size: 15px;
+}
+
+.register-input-wrapper input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px 12px 12px 38px;
+  border: 2px solid #111;
+  border-radius: 5px;
+  background: #f9f9e0;
+  font-size: 14px;
+  outline: none;
+}
+
+.register-input-wrapper input:focus {
+  box-shadow: 4px 4px 0 #111;
+}
+
+.register-error {
+  color: #c1121f;
+  font-size: 13px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.register-button {
+  margin-top: 6px;
+  width: 100%;
+  padding: 14px;
+  background: #ffdd2d;
+  border: 3px solid #111;
+  border-radius: 6px;
+  font-weight: 900;
+  cursor: pointer;
+  box-shadow: 5px 5px 0 #111;
+}
+
+.register-button:active {
+  transform: translate(5px, 5px);
+  box-shadow: none;
+}
+
+.register-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.register-divider {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 28px 0 16px;
+  font-size: 11px;
+  font-weight: bold;
+}
+
+.register-divider::before,
+.register-divider::after {
+  content: "";
+  flex: 1;
+  height: 2px;
+  background: #111;
+}
+
+.register-socials {
+  display: flex;
+  gap: 12px;
+}
+
+.register-socials button {
+  flex: 1;
+  padding: 10px;
+  background: #f9f9e0;
+  border: 2px solid #111;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 3px 3px 0 #111;
+}
+
+.register-login {
+  margin-top: 24px;
+  text-align: center;
+  font-size: 12px;
+}
+
+.register-login span {
+  font-weight: bold;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* -------- AVATARES -------- */
+
+.avatar-section {
+  margin: 25px 0;
+}
+
+.avatar-title {
+  font-size: 1rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  margin-bottom: 18px;
+}
+
+.avatar-options {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+  justify-items: center;
+}
+
+.avatar-option {
+  width: 105px;
+  height: 105px;
+  border: 3px solid #111;
+  border-radius: 50%;
+  overflow: hidden;
+  padding: 0;
+  cursor: pointer;
+  background: #f9f9e0;
+  transition: all .2s ease;
+  box-shadow: 4px 4px 0 #111;
+}
+
+.avatar-option:hover {
+  transform: scale(1.08);
+}
+
+.avatar-option img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.avatar-selected {
+  border: 5px solid #ffe245;
+  box-shadow: 0 0 0 3px #111;
+  transform: scale(1.05);
+}

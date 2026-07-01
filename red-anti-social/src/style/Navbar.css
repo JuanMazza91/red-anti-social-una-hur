@@ -1,0 +1,23 @@
+.navbar-user {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: #ffe245;
+  font-weight: 900;
+  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.45);
+}
+
+.username-highlight {
+  color: #ffe245;
+  font-weight: 900;
+}
+
+.navbar-user button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.navbar-user svg {
+  font-size: 1.2rem;
+}

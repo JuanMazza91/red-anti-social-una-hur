@@ -15,30 +15,32 @@ export const Login: React.FC = () => {
   const navigate = useNavigate();
   const { login } = useAuth(); // 🍌  Consumir la función del contexto global
 
-  // Limpiador automático de errores viejo
+  // Limpieza de errores
   useEffect(() => {
     if (nicknameError || passwordError) {
       const timer = setTimeout(() => {
         setNicknameError(null);
         setPasswordError(null);
       }, 4000);
+
       return () => clearTimeout(timer);
     }
   }, [nicknameError, passwordError]);
 
   // Controlador de la redirección con delay de 2 segundos
-  useEffect(() => {
-    if (successMessage) {
-      const timer = setTimeout(() => {
-        navigate('/home'); 
-      }, 2000);
+useEffect(() => {
+  if (successMessage) {
+    const timer = setTimeout(() => {
+      navigate("/home");
+    }, 2000);
 
-      return () => clearTimeout(timer);
-    }
-  }, [successMessage, navigate]);
+    return () => clearTimeout(timer);
+  }
+}, [successMessage, navigate]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
     setNicknameError(null);
     setPasswordError(null);
     setSuccessMessage(null);
@@ -54,7 +56,7 @@ export const Login: React.FC = () => {
       setPasswordError('¡OOK! Falta la clave de la selva.');
       tieneErrores = true;
     } else if (password.length < 6) {
-      setPasswordError('¡OOK! La clave is corta. Mínimo 6 caracteres.');
+      setPasswordError('¡OOK! La clave es corta. Mínimo 6 caracteres.');
       tieneErrores = true;
     }
 
@@ -78,6 +80,9 @@ export const Login: React.FC = () => {
         return;
       }
 
+      setSuccessMessage(
+        `¡BIENVENIDO A LA SELVA, ${nickName.toUpperCase()}! 🍌🌴🦧`
+      );
       console.log('¡Ingreso exitoso!', usuarioExiste);
 
       // 🍌 PASO NUEVO: Guardamos el usuario en el estado global (y en localStorage mediante el Provider)
@@ -86,7 +91,7 @@ export const Login: React.FC = () => {
       // Al actualizar este estado, se activa automáticamente el useEffect de la redirección
       setSuccessMessage(`¡BIENVENIDO A LA SELVA, ${nickName.toUpperCase()}! 🍌🌴🦧`);
 
-    } catch (err) {
+    } catch {
       setPasswordError('Error al entrar a la selva.');
     }
   };
@@ -97,12 +102,13 @@ export const Login: React.FC = () => {
         <h2 className="login-title">
           🦧 UNAHUR Anti-Social Net 🦧
         </h2>
+
         <p className="login-subtitle">
           <i>Jungle Feed - Login</i>
         </p>
 
         <form onSubmit={handleSubmit}>
-          {/*SECCIÓN NICKNAME*/}
+          {/* NICKNAME */}
           <label className="login-label">Nombre de tu mono</label>
           <input
             type="text"
@@ -112,13 +118,12 @@ export const Login: React.FC = () => {
             className="login-input"
           />
           {nicknameError && (
-            <div className="login-error-field">
-              {nicknameError}
-            </div>
+            <div className="login-error-field">{nicknameError}</div>
           )}
 
-          {/*SECCIÓN CONTRASEÑA*/}
+          {/* PASSWORD */}
           <label className="login-label">Clave de la Selva</label>
+
           <div className="password-wrapper">
             <input
               type={showPassword ? 'text' : 'password'}
@@ -127,37 +132,35 @@ export const Login: React.FC = () => {
               onChange={(e) => setPassword(e.target.value)}
               className="login-input password-input"
             />
+
             <button
               type="button"
               className="password-toggle-btn"
               onClick={() => setShowPassword(!showPassword)}
-              title={showPassword ? "Ocultar clave" : "Mostrar clave"}
             >
               {showPassword ? '🐵' : '🙈'}
             </button>
           </div>
+
           {passwordError && (
-            <div className="login-error-field">
-              {passwordError}
-            </div>
+            <div className="login-error-field">{passwordError}</div>
           )}
 
-          {/*CARTEL DE ÉXITO GENERAL*/}
+          {/* SUCCESS */}
           {successMessage && (
-            <div className="login-success">
-              {successMessage}
-            </div>
+            <div className="login-success">{successMessage}</div>
           )}
 
-          {/*BOTÓN DE INGRESO*/}
+          {/* LOGIN BUTTON */}
           <button type="submit" className="login-button">
             INGRESAR A LA MANADA 🍌
           </button>
 
-          {/*BOTÓN DE REGISTRO*/}
-          <button 
-            type="button" 
+          {/* REGISTER BUTTON (CORREGIDO) */}
+          <button
+            type="button"
             className="login-register-button"
+            onClick={() => navigate('/register')}
           >
             Registrarse En La Manada 📝
           </button>

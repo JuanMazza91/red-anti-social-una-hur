@@ -4,6 +4,7 @@ import { useAuth } from "../context/LoginContext";
 import { FiLogOut } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import "../style/Home.css";
+import "../style/Navbar.css";
 
 function NavbarApp() {
   const [busqueda, setBusqueda] = useState("");
@@ -29,10 +30,7 @@ function NavbarApp() {
         zIndex: 1050,
       }}
     >
-      <Container
-        className="d-flex justify-content-between align-items-center position-relative"
-        style={{ zIndex: 1050 }}
-      >
+      <Container className="d-flex justify-content-between align-items-center">
         <Navbar.Brand
           href="/home"
           className="font-headline text-uppercase tracking-tighter mb-0 fs-3"
@@ -54,23 +52,28 @@ function NavbarApp() {
             value={busqueda}
             onChange={(e) => setBusqueda(e.target.value)}
           />
+
           <button
             className="btn btn-warning rounded-0 border border-2 border-dark font-headline banana-shadow-hover"
             type="submit"
-            style={{ backgroundColor: "#ffe245", fontWeight: "bold" }}
+            style={{
+              backgroundColor: "#ffe245",
+              fontWeight: "bold",
+            }}
           >
             Buscar
           </button>
         </form>
 
         <Nav>
-          <div>
-            <span className="font-headline">
+          <div className="navbar-user font-headline">
+            <span>
               Hola,{" "}
-              <span className="font-headline me-2">
+              <span className="username-highlight">
                 {usuarioActual?.nickname || "Monkey"}
               </span>
             </span>
+
             <button
               onClick={manejarLogout}
               className="btn btn-warning rounded-0 border border-2 border-dark font-headline banana-shadow-hover"
@@ -78,7 +81,7 @@ function NavbarApp() {
               aria-label="Cerrar sesión"
               style={{ backgroundColor: "#ffe245" }}
             >
-              <FiLogOut strokeWidth={1.5} />
+              <FiLogOut strokeWidth={2} />
             </button>
           </div>
         </Nav>
