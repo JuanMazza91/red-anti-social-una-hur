@@ -9,6 +9,12 @@ function PostsHome() {
   const [posts, setPosts] = useState<Post[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [cargando, setCargando] = useState<boolean>(true);
+ 
+  const handleUpdatePost = (postActualizado: Post) => {
+  setPosts((postsAnteriores) =>
+    postsAnteriores.map((p) => (p._id === postActualizado._id ? postActualizado : p))
+  );
+};
 
   // 1. Traer los posts de la base de datos al cargar la página
   useEffect(() => {
@@ -20,7 +26,6 @@ function PostsHome() {
         const listaPosts: Post[] = Array.isArray(data)
           ? data
           : ((data as any)?.posts ?? (data as any)?.data ?? []);
-
         setPosts(listaPosts);
       } catch (error: any) {
         setError(error.message || "Error al cargar los posts");
@@ -33,7 +38,7 @@ function PostsHome() {
   }, []);
 
   return (
-    <div className="container-home ">
+    <div className="container-home">
       <div className="container mt-4">
         <div className="row ">
           {/* COLUMNA IZQUIERDA: Menú de Navegación "Red Social de Monos" */}
@@ -49,13 +54,12 @@ function PostsHome() {
             )}
 
             {posts.map((post) => (
-              <PostCard key={post._id} post={post} />
+              <PostCard key={post._id} post={post} onUpdatePost={handleUpdatePost}/>
             ))}
           </main>
 
           {/* COLUMNA DERECHA: Noticias / Info Secundaria */}
-         
-          
+        
           <aside className="col-md-3 sticky-top d-none d-md-block" style={{ top: "80px", height: "fit-content" }}>
             
             {/* SECCIÓN NUEVA: Nosotros */}

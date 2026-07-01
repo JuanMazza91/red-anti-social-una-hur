@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/LoginContext'; 
 import '../style/Login.css';
 
 export const Login: React.FC = () => {
@@ -12,6 +13,7 @@ export const Login: React.FC = () => {
   const [passwordError, setPasswordError] = useState<string | null>(null);
 
   const navigate = useNavigate();
+  const { login } = useAuth(); // 🍌  Consumir la función del contexto global
 
   // Limpieza de errores
   useEffect(() => {
@@ -25,16 +27,16 @@ export const Login: React.FC = () => {
     }
   }, [nicknameError, passwordError]);
 
-  // Redirección luego de login exitoso
-  useEffect(() => {
-    if (successMessage) {
-      const timer = setTimeout(() => {
-        navigate('/home');
-      }, 2000);
+  // Controlador de la redirección con delay de 2 segundos
+useEffect(() => {
+  if (successMessage) {
+    const timer = setTimeout(() => {
+      navigate("/home");
+    }, 2000);
 
-      return () => clearTimeout(timer);
-    }
-  }, [successMessage, navigate]);
+    return () => clearTimeout(timer);
+  }
+}, [successMessage, navigate]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -81,8 +83,15 @@ export const Login: React.FC = () => {
       setSuccessMessage(
         `¡BIENVENIDO A LA SELVA, ${nickName.toUpperCase()}! 🍌🌴🦧`
       );
+      console.log('¡Ingreso exitoso!', usuarioExiste);
 
-    } catch (err) {
+      // 🍌 PASO NUEVO: Guardamos el usuario en el estado global (y en localStorage mediante el Provider)
+      login(usuarioExiste); 
+
+      // Al actualizar este estado, se activa automáticamente el useEffect de la redirección
+      setSuccessMessage(`¡BIENVENIDO A LA SELVA, ${nickName.toUpperCase()}! 🍌🌴🦧`);
+
+    } catch {
       setPasswordError('Error al entrar a la selva.');
     }
   };

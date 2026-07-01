@@ -8,3 +8,10 @@ export type User ={
     seguidores: User[];
     
 } 
+
+export type AuthContextType = {
+  usuarioActual: User | null; 
+  login: (usuario: User) => void;
+  logout: () => void;
+  cargando: boolean;
+}

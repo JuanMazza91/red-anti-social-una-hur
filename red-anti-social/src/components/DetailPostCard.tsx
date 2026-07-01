@@ -1,14 +1,13 @@
 import { Card } from "react-bootstrap";
 import type { PostCardProps} from "../types/Index";
 import TagList from "./TagList";
-import { Link } from "react-router-dom";
 import { useRelativeTime } from "../hooks/useRelativeTime";
 
 import { useAuth } from "../context/LoginContext"; // 🍌 Importamos useAuth
 import { darBananoAlPost } from "../api/PostApi"; // 🍌 Importamos el servicio agrupado
 
 
-function PostCard({ post, onUpdatePost }: PostCardProps) {
+function DetailPostCard({ post, onUpdatePost }: PostCardProps) {
   const { autor, texto, imagenes, tags, bananos } = post;
   const { usuarioActual } = useAuth(); // 🍌 Consumimos el usuario logueado en la selva
   const fechaRelativa = useRelativeTime(post.createdAt);
@@ -142,15 +141,9 @@ function PostCard({ post, onUpdatePost }: PostCardProps) {
             {post.comentarios?.length === 1 ? "Comentario" : "Comentarios"}
           </span>
         </div>
-        <Link
-          to={`/post/${post._id}`}
-          className="fw-bold text-decoration-none text-dark login-link ms-sm-auto"
-        >
-          Ver mas
-        </Link>
       </Card.Footer>
     </Card>
   );
 }
 
-export default PostCard;
+export default DetailPostCard;

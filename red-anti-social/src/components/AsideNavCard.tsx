@@ -24,7 +24,7 @@ function MonoNav() {
         <ul className="list-unstyled d-flex flex-column gap-3">
           <li>
             <a 
-              href="#inicio" 
+              href="/home" 
               className="text-decoration-none d-flex align-items-center gap-3 p-3  rounded-2 fw-bold text-dark" 
               style={linkStyle}
               onMouseEnter={manejarHoverIn}
