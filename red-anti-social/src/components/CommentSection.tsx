@@ -43,7 +43,11 @@ function CommentSection({ comments, postId, setComments, setPost, usuario }: Pro
       setContenido("");
     } catch (error) {
       console.error(error);
-      alert("No se pudo crear el comentario");
+      Swal.fire({
+        icon: "warning",
+        title: "Oops...",
+        text: "¡OOK! Debes estar logueado en la manada para comentar 🐵",
+      });
     }
   };
 

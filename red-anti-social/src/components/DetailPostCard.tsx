@@ -1,15 +1,20 @@
 import { Card } from "react-bootstrap";
-import type { PostCardProps } from "../types/Index";
+import type { DetailPostCardProps } from "../types/Index";
 import TagList from "./TagList";
 import { useRelativeTime } from "../hooks/useRelativeTime";
-
+import Swal from "sweetalert2";
 import { useAuth } from "../context/LoginContext"; // 🍌 Importamos useAuth
 import { darBananoAlPost } from "../api/PostApi"; // 🍌 Importamos el servicio agrupado
+import { eliminarPost } from "../api/PostApi";
+import { useNavigate } from "react-router-dom";
+import { FaTrash } from "react-icons/fa";
 
-function DetailPostCard({ post, onUpdatePost }: PostCardProps) {
+function DetailPostCard({ post, onUpdatePost }: DetailPostCardProps) {
   const { autor, texto, imagenes, tags, bananos } = post;
   const { usuarioActual } = useAuth(); // 🍌 Consumimos el usuario logueado en la selva
   const fechaRelativa = useRelativeTime(post.createdAt);
+  const navigate = useNavigate();
+  const puedeEliminar = usuarioActual && post.autor && post.autor._id === usuarioActual._id;
 
   // Saber si el chimpancé actual ya le dio Banano a esta publicación
   const yaDioBanano = (bananos || []).includes(usuarioActual?._id || "");
@@ -17,7 +22,11 @@ function DetailPostCard({ post, onUpdatePost }: PostCardProps) {
   // 🍌 Función interactiva para dar/quitar Banano
   const handleBananoClick = async () => {
     if (!usuarioActual) {
-      alert("¡OOK! Debes estar logueado en la manada para dar bananos 🐵");
+      Swal.fire({
+        icon: "warning",
+        title: "Oops...",
+        text: "¡OOK! Debes estar logueado en la manada para dar bananos 🐵",
+      });
       return;
     }
 
@@ -36,10 +45,46 @@ function DetailPostCard({ post, onUpdatePost }: PostCardProps) {
     }
   };
 
+  const handleDeletePost = async () => {
+    const result = await Swal.fire({
+      title: "Eliminar publicación",
+      text: "Esta acción no se puede deshacer",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#dc3545",
+      cancelButtonColor: "#6c757d",
+      confirmButtonText: "Eliminar",
+      cancelButtonText: "Cancelar",
+    });
+
+    if (!result.isConfirmed) return;
+
+    try {
+      await eliminarPost(post._id);
+
+      await Swal.fire({
+        icon: "success",
+        title: "Publicación eliminada",
+        timer: 1200,
+        showConfirmButton: false,
+      });
+
+      navigate("/home", {replace: true});
+    } catch (error) {
+      console.error(error);
+
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "No se pudo eliminar la publicación",
+      });
+    }
+  };
+
   return (
     <Card className="border border-3 border-dark rounded-0 banana-shadow mb-5 bg-white">
       {/* Cabecera del post con info del autor y fecha */}
-      <Card.Header className="d-flex align-items-center rounded-0 border-bottom py-3">
+      <Card.Header className="d-flex justify-content-between align-items-center rounded-0 border-bottom py-3">
         <div>
           <Card.Title className="mb-0 fs-5 fw-bold text-dark font-headline">
             {autor?.nickname || "Monke Anónimo"}
@@ -48,6 +93,15 @@ function DetailPostCard({ post, onUpdatePost }: PostCardProps) {
             {fechaRelativa}
           </Card.Text>
         </div>
+
+        {puedeEliminar && (
+            <button
+              className="delete-post-btn"
+              onClick={handleDeletePost}
+            >
+              <FaTrash />
+            </button>)}
+
       </Card.Header>
 
       {/* Cuerpo del post con el texto */}

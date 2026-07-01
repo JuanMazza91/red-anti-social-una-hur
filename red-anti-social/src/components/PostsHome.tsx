@@ -39,6 +39,8 @@ function PostsHome() {
   };
   // En el useEffect
   useEffect(() => {
+    console.log("HOME MONTADO");
+
     cargarPosts();
   }, []);
 
@@ -49,6 +51,13 @@ function PostsHome() {
       ),
     );
   };
+
+  const handleDeletePost = (postId: string) => {
+    setPosts((postsAnteriores) =>
+      postsAnteriores.filter((p) => p._id !== postId)
+    );
+  };
+
   return (
     <div className="container-home">
       <div className="container mt-4">
@@ -80,6 +89,7 @@ function PostsHome() {
                 key={post._id}
                 post={post}
                 onUpdatePost={handleUpdatePost}
+                onDeletePost={handleDeletePost}
               />
             ))}
           </main>

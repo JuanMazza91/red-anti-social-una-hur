@@ -64,7 +64,7 @@ function PostDetail() {
 
   return (
     <div className="container-home">
-        <div className="container mt-4">
+        <div className="container pt-4">
             <div className="row">
 
             <AsideNavCard />

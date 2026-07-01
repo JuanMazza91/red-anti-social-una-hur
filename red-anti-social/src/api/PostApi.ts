@@ -58,9 +58,6 @@ export const darBananoAlPost = async (postId: string, usuarioId: string): Promis
 };
 
 
-
-
-
 export interface CreatePostData {
   texto: string;
   imagenes: string[]; // Strings planos como pide Joi
@@ -90,4 +87,19 @@ export const crearPost = async (postData: CreatePostData, token?: string): Promi
 
   // <-- Retorna el Post completo con su _id, autor populado, bananos, etc.
   return data as Post; 
+};
+
+export const eliminarPost = async (postId: string) => {
+  const response = await fetch(`${API_URL}/${postId}`, {
+    method: "DELETE",
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(
+      errorData.message || "Error al eliminar publicación"
+    );
+  }
+
+  return response.json();
 };
