@@ -1,25 +1,23 @@
 import { useState } from "react";
 import { Navbar, Container, Nav } from "react-bootstrap";
 import { useAuth } from "../context/LoginContext";
-import {  FiLogOut } from "react-icons/fi";
-import { useNavigate } from "react-router-dom"; 
-import "../style/Home.css"
-
+import { FiLogOut } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
+import "../style/Home.css";
 
 function NavbarApp() {
   const [busqueda, setBusqueda] = useState("");
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     console.log("Buscando:", busqueda);
   };
 
-  const { usuarioActual, logout } = useAuth();
-  
+  const { usuarioActual } = useAuth();
+
   const manejarLogout = () => {
-    logout(); 
-    navigate("/login"); 
+    navigate("/logout");
   };
 
   return (
@@ -68,15 +66,17 @@ function NavbarApp() {
         <Nav>
           <div>
             <span className="font-headline">
-            
-              Hola, <span className="font-headline me-2">{usuarioActual?.nickname || "Monkey"}</span>
+              Hola,{" "}
+              <span className="font-headline me-2">
+                {usuarioActual?.nickname || "Monkey"}
+              </span>
             </span>
             <button
               onClick={manejarLogout}
               className="btn btn-warning rounded-0 border border-2 border-dark font-headline banana-shadow-hover"
               title="Cerrar sesión"
               aria-label="Cerrar sesión"
-              style={{ backgroundColor: "#ffe245"}}
+              style={{ backgroundColor: "#ffe245" }}
             >
               <FiLogOut strokeWidth={1.5} />
             </button>

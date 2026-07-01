@@ -22,12 +22,17 @@ function PostsHome() {
     const cargarPublicaciones = async () => {
       try {
         const data = await obtenerPosts();
+        type PostsResponse = { posts?: Post[]; data?: Post[] };
         const listaPosts: Post[] = Array.isArray(data)
           ? data
-          : ((data as any)?.posts ?? (data as any)?.data ?? []);
+          : ((data as PostsResponse)?.posts ??
+            (data as PostsResponse)?.data ??
+            []);
         setPosts(listaPosts);
-      } catch (error: any) {
-        setError(error.message || "Error al cargar los posts");
+      } catch (error: unknown) {
+        const mensajeError =
+          error instanceof Error ? error.message : "Error al cargar los posts";
+        setError(mensajeError);
       } finally {
         setCargando(false);
       }
@@ -39,13 +44,12 @@ function PostsHome() {
   return (
     <div className="container-home">
       <div className="container mt-4">
-        <div className="row ">
-          <div className="col-md-3">
+        <div className="row g-4">
+          <div className="col-12 col-lg-4 col-xl-3">
             <Sidebar />
           </div>
 
-          {/* COLUMNA CENTRAL */}
-          <main className="col-md-6">
+          <main className="col-12 col-lg-8 col-xl-6">
             {cargando && <p>Cargando publicaciones...</p>}
             {error && <div className="alert alert-danger">{error}</div>}
 
@@ -62,7 +66,7 @@ function PostsHome() {
             ))}
           </main>
 
-          <aside className="col-md-3 d-none d-md-block">
+          <aside className="col-12 col-xl-3 d-none d-xl-block">
             <div
               style={{ display: "flex", flexDirection: "column", gap: "10px" }}
             >

@@ -1,25 +1,18 @@
 .sidebar-contenedor {
+  width: 100%;
   position: sticky !important;
+  top: 85px !important;
   height: max-content !important;
+  align-self: start !important;
   z-index: 1000 !important;
-  top: 95px !important;
-
   background: #ffffff;
   border: 3px solid #1a1a1a;
   border-radius: 18px;
   box-shadow: 6px 6px 0 #1a1a1a;
-  padding: 2rem 1.25rem;
+  padding: 1.25rem 1rem;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
-}
-
-.sidebar-contenedor:not(.modo-perfil) {
-  top: 95px !important;
-}
-
-.sidebar-contenedor.modo-perfil {
-  top: 95px !important;
+  gap: 1rem;
 }
 
 /* --- PERFIL SUPERIOR --- */
@@ -35,12 +28,12 @@
 .sidebar-perfil-tarjeta .perfil-avatar-wrapper {
   position: relative;
   display: inline-block;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
 }
 
 .sidebar-perfil-tarjeta .perfil-avatar {
-  width: 110px;
-  height: 110px;
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
   border: 4px solid #1a1a1a;
   background: #f9f9e0;
@@ -49,6 +42,12 @@
   justify-content: center;
   font-size: 2.2rem;
   overflow: hidden;
+}
+
+.sidebar-perfil-tarjeta .perfil-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .sidebar-perfil-tarjeta .perfil-badge {
@@ -64,16 +63,16 @@
   align-items: center;
   justify-content: center;
   color: #ffffff;
-  font-size: 0.9rem;
+  font-size: 1.1rem;
 }
 
 /* --- USER INFO --- */
 .sidebar-nombre {
   font-family: "Impact", "Arial Black", sans-serif;
-  font-size: 2.2rem;
+  font-size: 1.8rem;
   color: #1a1a1a;
   letter-spacing: -0.5px;
-  margin: 0 0 2px 0;
+  margin: 0;
   padding: 5px;
   line-height: 1.1;
 }
@@ -84,11 +83,11 @@
   color: rgba(26, 26, 26, 0.5);
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  margin-bottom: 1.2rem;
+  margin-bottom: 0.7rem;
 }
 
 /* --- BOTÓN --- */
-.sidebar-btn-grito {
+.sidebar-btn {
   width: 100%;
   background-color: #ffd43f !important;
   color: #1a1a1a !important;
@@ -104,19 +103,19 @@
     box-shadow 0.08s ease;
 }
 
-.sidebar-btn-grito:hover {
+.sidebar-btn:hover {
   transform: translate(-1px, -1px);
   box-shadow: 5px 5px 0 #1a1a1a;
 }
 
-.sidebar-btn-grito:active {
+.sidebar-btn:active {
   transform: translate(2px, 2px);
   box-shadow: 2px 2px 0 #1a1a1a;
 }
 
 /* --- LÍNEA DIVISORIA --- */
 .sidebar-divisor {
-  margin: 0;
+  margin: 1rem 0 !important;
   border: none;
   opacity: 1;
   border-top: 5px dashed #1a1a1a;
@@ -126,8 +125,20 @@
 .sidebar-menu {
   display: flex;
   flex-direction: column;
-  gap: 0.8rem;
+  gap: 0.5rem;
   width: 100%;
+}
+
+.sidebar-nombre {
+  word-break: break-word;
+  max-width: 100%;
+}
+
+.sidebar-link {
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .sidebar-link,
@@ -135,18 +146,16 @@
   background: transparent;
   border: 3px solid transparent;
   border-radius: 12px;
-  padding: 12px 16px;
+  padding: 8px 14px;
   display: flex;
   align-items: center;
   gap: 12px;
-
   font-family: "Arial Black", sans-serif;
   font-weight: 900;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   color: #1a1a1a;
   text-align: left;
   text-transform: uppercase;
-
   transition: all 0.08s ease;
   cursor: pointer;
 }
@@ -157,7 +166,7 @@
   flex-shrink: 0;
 }
 
-/* --- ESTADO ACTIVO ---*/
+/* --- ESTADO ACTIVO --- */
 .sidebar-link.sidebar-btn-activo,
 .sidebar-link-destacado.sidebar-btn-activo {
   background-color: #ffd43f !important;
@@ -165,7 +174,7 @@
   box-shadow: 4px 4px 0 #1a1a1a !important;
 }
 
-/* --- BOTONES ACTIVOS --- */
+/* --- ENLACES ACTIVOS --- */
 .sidebar-link:not(.deshabilitado):not(.sidebar-btn-activo):hover,
 .sidebar-link-destacado:not(.deshabilitado):not(.sidebar-btn-activo):hover {
   background-color: #fcfaf2;
@@ -173,9 +182,15 @@
   box-shadow: 4px 4px 0 #1a1a1a;
 }
 
-/* --- BOTONES DESACTIVADOS --- */
+/* --- ENLACES DESACTIVADOS --- */
 .sidebar-link.deshabilitado,
 .sidebar-link-destacado.deshabilitado {
-  opacity: 0.4;
-  cursor: not-allowed;
+  opacity: 0.5;
+  cursor: help;
+  pointer-events: auto !important;
+}
+
+.sidebar-link.deshabilitado:hover {
+  opacity: 0.8;
+  background-color: #f0f0f0;
 }

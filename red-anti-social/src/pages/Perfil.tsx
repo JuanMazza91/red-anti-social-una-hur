@@ -1,11 +1,9 @@
 import { Container, Row, Col, Button } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 
 import { useAuth } from "../context/LoginContext";
 import { useUserPosts } from "../hooks/useUserPosts";
 
-import { PerfilLoading } from "../components/PerfilLoading";
-import { PerfilError } from "../components/PerfilError";
 import { Sidebar } from "../components/Sidebar";
 import PostCard from "../components/PostCard";
 
@@ -30,8 +28,8 @@ export function Perfil() {
   const {
     misPosts,
     setMisPosts,
-    loading: perfilLoading,
     error,
+    loading: perfilLoading,
   } = useUserPosts(authLoading ? undefined : user?._id);
 
   const handleUpdatePost = (updatedPost: Post) => {
@@ -41,16 +39,11 @@ export function Perfil() {
   };
 
   if (authLoading || perfilLoading) {
-    return <PerfilLoading />;
+    return null;
   }
 
   if (error || !user) {
-    return (
-      <PerfilError
-        mensaje={error || "No se encontró la sesión del simio."}
-        onRedirigir={() => navigate("/login")}
-      />
-    );
+    return <Navigate to="/login" replace />;
   }
 
   return (
@@ -62,7 +55,7 @@ export function Perfil() {
             <Sidebar />
           </Col>
 
-          {/* --- MAIN --- */}
+          {/* --- CONTENIDO PRINCIPAL --- */}
           <Col xs={12} lg={8} xl={9}>
             {/* --- HEADER --- */}
             <section className="perfil-header">
@@ -70,7 +63,7 @@ export function Perfil() {
                 {/* --- AVATAR --- */}
                 <Col xs={12} lg={3} className="text-center">
                   <div className="perfil-avatar-wrapper">
-                    {/* AGREGAR AVATAR */}
+                    <div className="perfil-avatar">{/* AGREGAR AVATAR */}</div>
                     <div className="perfil-badge">
                       <PiSealCheck />
                     </div>
@@ -81,7 +74,9 @@ export function Perfil() {
                 <Col xs={12} lg={9}>
                   <Row className="align-items-center g-3">
                     <Col>
-                      <h1 className="perfil-nickname">{user.nickname}</h1>
+                      <h1 className="perfil-nickname">
+                        {user.nickname || "Monkey"}
+                      </h1>
                       <p className="perfil-location">
                         <PiMapPinFill />
                         {/* AGREGAR UBICACION */}
@@ -138,34 +133,40 @@ export function Perfil() {
             </section>
 
             {/* --- POSTS --- */}
-            <section className="perfil-posts">
-              <header className="perfil-posts-header">
-                <h2>MIS HUELLAS</h2>
-                <div className="perfil-divider" />
-              </header>
+            <div className="perfil-posts-wrapper">
+              <section className="perfil-posts">
+                <div className="perfil-contenido-compacto">
+                  <header className="perfil-posts-header">
+                    <h2>MIS HUELLAS</h2>
+                    <div className="perfil-divider" />
+                  </header>
 
-              {!misPosts || misPosts.length === 0 ? (
-                <div className="perfil-empty">
-                  <div className="perfil-empty-icon">🌴🐒</div>
-                  <h3>¡Silencio en la copa del árbol!</h3>
-                  <p>Todavía no has lanzado ningún Ook.</p>
-                  <Button
-                    className="perfil-btn"
-                    onClick={() => navigate("/crear-post")}
-                  >
-                    Crear mi primer Ook
-                  </Button>
+                  {!misPosts || misPosts.length === 0 ? (
+                    <div className="perfil-empty">
+                      <div className="perfil-empty-icon">🌴🐒</div>
+                      <h3>¡Silencio en la copa del árbol!</h3>
+                      <p>Todavía no has lanzado ningún Ook.</p>
+                      <Button
+                        className="perfil-btn"
+                        onClick={() => navigate("/crear-post")}
+                      >
+                        Crear mi primer Ook
+                      </Button>
+                    </div>
+                  ) : (
+                    <div className="d-flex flex-column gap-4">
+                      {misPosts.map((post) => (
+                        <PostCard
+                          key={post._id}
+                          post={post}
+                          onUpdatePost={handleUpdatePost}
+                        />
+                      ))}
+                    </div>
+                  )}
                 </div>
-              ) : (
-                <Row className="g-4">
-                  {misPosts.map((post) => (
-                    <Col xs={12} key={post._id}>
-                      <PostCard post={post} onUpdatePost={handleUpdatePost} />
-                    </Col>
-                  ))}
-                </Row>
-              )}
-            </section>
+              </section>
+            </div>
           </Col>
         </Row>
       </div>

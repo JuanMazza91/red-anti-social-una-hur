@@ -1,6 +1,7 @@
 import { Button } from "react-bootstrap";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../context/LoginContext";
+import { useUserPosts } from "../hooks/useUserPosts";
 
 import {
   PiSealCheck,
@@ -8,7 +9,7 @@ import {
   PiChatCircle,
   PiNewspaper,
   PiGraph,
-  PiGear,
+  PiSignOut,
 } from "react-icons/pi";
 
 import "../style/Sidebar.css";
@@ -17,24 +18,42 @@ export function Sidebar() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const { usuarioActual: user, logout } = useAuth();
+  const { usuarioActual: user, cargando: authLoading } = useAuth();
+
+  const { misPosts } = useUserPosts(authLoading ? undefined : user?._id);
 
   const esActivo = (ruta: string): string =>
     location.pathname === ruta ? "sidebar-btn-activo" : "";
 
+  // mensajes para la navegacion deshabilitada
   const manejarBotonDeAdorno = (seccion: string) => {
-    alert(
-      `¡OOK OOK! La sección "${seccion}" está bajo construcción por los simios ingenieros.`,
-    );
+    const excusas = [
+      "Un gorila de 200kg se sentó sobre los servidores y rompió los cables.",
+      "Se cortó la liana de fibra óptica de la conexión a internet. Intentá más tarde.",
+      "El jefe de la manada confiscó esta sección temporalmente por exceso de ruido.",
+      "Nuestros programadores chimpancés están durmiendo la siesta arriba de una palmera.",
+      "Cambiamos el código por bananas y nos quedamos sin sistema en esta pestaña.",
+    ];
+
+    const fraseAleatoria = excusas[Math.floor(Math.random() * excusas.length)];
+
+    alert(`🌴 [${seccion.toUpperCase()}] 🌴\n\n¡OOK OOK! ${fraseAleatoria}`);
   };
 
-  const esPerfil = location.pathname === "/perfil";
+  // rango dinámico según sus posts
+  const obtenerRangoSimio = (): string => {
+    const cantidad = misPosts?.length || 0;
+    if (cantidad === 0) return "CHIMPANCÉ NOVATO";
+    if (cantidad >= 1 && cantidad <= 3) return "GORILA DE LA SELVA";
+    return "REY DE LA MANADA";
+  };
 
   return (
-    <aside className={`sidebar-contenedor ${esPerfil ? "modo-perfil" : ""}`}>
+    <aside className="sidebar-contenedor">
       <div className="sidebar-perfil-tarjeta">
         {/* --- AVATAR --- */}
         <div className="perfil-avatar-wrapper">
+          <div className="perfil-avatar">{/* AGREGAR AVATAR */}</div>
           <div className="perfil-badge">
             <PiSealCheck />
           </div>
@@ -42,13 +61,11 @@ export function Sidebar() {
 
         {/* --- USER INFO --- */}
         <h5 className="sidebar-nombre">{user?.nickname || "Monke Master"}</h5>
-        <span className="sidebar-rol">DIRECTOR DE OOKS</span>
+
+        <span className="sidebar-rol">{obtenerRangoSimio()}</span>
 
         {/* --- BOTÓN --- */}
-        <Button
-          className="sidebar-btn-grito"
-          onClick={() => navigate("/crear-post")}
-        >
+        <Button className="sidebar-btn" onClick={() => navigate("/crear-post")}>
           OOK OOK!
         </Button>
       </div>
@@ -57,8 +74,9 @@ export function Sidebar() {
       <hr className="sidebar-divisor" />
 
       <nav className="sidebar-menu">
-        {/* --- ENLACES ACTIVOS --- */}
+        {/* --- ENLACE ACTIVO --- */}
         <button
+          type="button"
           onClick={() => navigate("/home")}
           className={`sidebar-link ${esActivo("/home")}`}
         >
@@ -82,6 +100,7 @@ export function Sidebar() {
           <PiNewspaper /> NOTICIAS BANANA
         </button>
 
+        {/* --- ENLACE ACTIVO --- */}
         <button
           type="button"
           onClick={() => navigate("/perfil")}
@@ -92,15 +111,11 @@ export function Sidebar() {
 
         {/* --- CERRAR SESIÓN --- */}
         <button
-          onClick={() => {
-            if (window.confirm("¿Quieres salir de la manada?")) {
-              logout();
-              navigate("/login");
-            }
-          }}
+          type="button"
+          onClick={() => navigate("/logout")}
           className="sidebar-link"
         >
-          <PiGear /> CERRAR SESIÓN
+          <PiSignOut /> CERRAR SESIÓN
         </button>
       </nav>
     </aside>
