@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useUser } from "../context/UserContext";
+import { useAuth } from "../context/LoginContext";
 import { FaUser, FaEnvelope, FaLock } from "react-icons/fa6";
 import "../style/Register.css";
 
@@ -10,6 +10,8 @@ type RegisterForm = {
   password: string;
 };
 
+const avatares = ["mono1.jpeg", "mono2.jpeg", "mono3.jpeg", "mono4.jpg"];
+
 export const Register: React.FC = () => {
   const [form, setForm] = useState<RegisterForm>({
     nickname: "",
@@ -17,11 +19,12 @@ export const Register: React.FC = () => {
     password: "",
   });
 
+  const [avatar, setAvatar] = useState("mono1.png");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const navigate = useNavigate();
-  const { login } = useUser();
+  const { login } = useAuth();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({
@@ -47,20 +50,24 @@ export const Register: React.FC = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(form),
+        body: JSON.stringify({
+          ...form,
+          avatar,
+        }),
       });
 
       const data = await response.json();
 
       if (!response.ok) {
-        setError(data?.error || "No se pudo crear el usuario");
+        setError(data?.error || data?.message || "No se pudo crear el usuario");
         return;
       }
 
       login({
-        id: data.id,
-        nickname: data.nickname,
-        email: data.email,
+        _id: data.usuario._id,
+        nickname: data.usuario.nickname,
+        email: data.usuario.email,
+        avatar: data.usuario.avatar,
       });
 
       navigate("/home");
@@ -75,8 +82,7 @@ export const Register: React.FC = () => {
     <main className="register-page">
       <section className="register-card">
         <div className="register-logo">
-          <span>UnaHur</span>
-          <small>Logo</small>
+          <img src="/public/unahur.png" alt="Logo UNAHUR" />
         </div>
 
         <div className="register-tag">#BananaTime</div>
@@ -90,7 +96,9 @@ export const Register: React.FC = () => {
           <div className="register-field">
             <label htmlFor="nickname">Nickname</label>
             <div className="register-input-wrapper">
-              <FaUser className="register-icon" />
+              <span className="register-icon">
+                <FaUser />
+              </span>
               <input
                 id="nickname"
                 name="nickname"
@@ -104,7 +112,9 @@ export const Register: React.FC = () => {
           <div className="register-field">
             <label htmlFor="email">Email</label>
             <div className="register-input-wrapper">
-              <FaEnvelope className="register-icon" />
+              <span className="register-icon">
+                <FaEnvelope />
+              </span>
               <input
                 id="email"
                 name="email"
@@ -119,7 +129,9 @@ export const Register: React.FC = () => {
           <div className="register-field">
             <label htmlFor="password">Password</label>
             <div className="register-input-wrapper">
-              <FaLock className="register-icon" />
+              <span className="register-icon">
+                <FaLock />
+              </span>
               <input
                 id="password"
                 name="password"
@@ -131,10 +143,31 @@ export const Register: React.FC = () => {
             </div>
           </div>
 
+          <div className="avatar-section">
+            <p className="avatar-title">🐵 Elegí tu mono</p>
+
+            <div className="avatar-options">
+              {avatares.map((mono) => (
+                <button
+                  key={mono}
+                  type="button"
+                  className={`avatar-option ${
+                    avatar === mono ? "avatar-selected" : ""
+                  }`}
+                  onClick={() => setAvatar(mono)}
+                >
+                  <img src={`/avatars/${mono}`} alt="Avatar de mono" />
+                </button>
+              ))}
+            </div>
+          </div>
+
           {error && <p className="register-error">{error}</p>}
 
           <button type="submit" disabled={loading} className="register-button">
-            {loading ? "Creando usuario..." : "🍌 ¡RECLAMAR MI ÁRBOL! (REGISTRARSE)"}
+            {loading
+              ? "Creando usuario..."
+              : "🍌 ¡RECLAMAR MI ÁRBOL! (REGISTRARSE)"}
           </button>
         </form>
 
