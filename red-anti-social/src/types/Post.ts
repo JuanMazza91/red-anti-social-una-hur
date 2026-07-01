@@ -19,5 +19,11 @@ export type Post = {
 
 export type PostCardProps = {
   post: Post;
-  onUpdatePost: (updatedPost: Post) => void;
+  onUpdatePost: (updatedPost: Post) => void; // 🍌 Agregamos la prop para actualizar el post en el feed
+  onDeletePost: (postId: string) => void;
+};
+
+export type DetailPostCardProps = {
+  post: Post;
+  onUpdatePost: (updatedPost: Post) => void; // 🍌 Agregamos la prop para actualizar el post en el feed
 };

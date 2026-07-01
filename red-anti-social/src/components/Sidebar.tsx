@@ -53,7 +53,18 @@ export function Sidebar() {
       <div className="sidebar-perfil-tarjeta">
         {/* --- AVATAR --- */}
         <div className="perfil-avatar-wrapper">
-          <div className="perfil-avatar">{/* AGREGAR AVATAR */}</div>
+          <div className="perfil-avatar">
+            {user?.avatar ? (
+              <img
+                src={`/avatars/${user.avatar}`}
+                alt="Avatar del chimpancé"
+                className="w-100 h-100 object-fit-cover"
+              />
+            ) : (
+              <span style={{ fontSize: "3rem" }}>🐵</span>
+            )}
+          </div>
+
           <div className="perfil-badge">
             <PiSealCheck />
           </div>

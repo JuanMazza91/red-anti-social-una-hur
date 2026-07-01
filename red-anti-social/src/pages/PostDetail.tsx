@@ -1,18 +1,16 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Row, Col } from "react-bootstrap";
 import type { Post } from "../types/Index";
 import type { Comment } from "../types/Index";
+import Sidebar from "../components/Sidebar";
 import AsideNoticias from "../components/AsideNoticias";
-import { Sidebar } from "../components/Sidebar";
+import "../style/PostDetail.css";
 import { useAuth } from "../context/LoginContext";
 
 import DetailPostCard from "../components/DetailPostCard";
 import CommentSection from "../components/CommentSection";
 
 import { obtenerPostPorId, obtenerComentariosDelPost } from "../api/PostApi";
-
-import "../style/PostDetail.css";
 
 function PostDetail() {
   const { id } = useParams();
@@ -58,17 +56,14 @@ function PostDetail() {
 
   return (
     <div className="container-home">
-      <div className="container mt-4 pb-5">
-        <Row className="g-4">
-          <Col xs={12} lg={4} xl={3}>
-            <div className="sticky-top" style={{ top: "85px", zIndex: 1000 }}>
-              <Sidebar />
-            </div>
-          </Col>
+      <div className="container pt-4">
+        <div className="row g-4">
+          <div className="col-12 col-lg-4 col-xl-3">
+            <Sidebar />
+          </div>
 
-          <Col xs={12} lg={8} xl={6}>
+          <main className="col-12 col-lg-8 col-xl-6 mb-5">
             <DetailPostCard post={post} onUpdatePost={handleUpdatePost} />
-
             <CommentSection
               comments={comments}
               postId={post._id}
@@ -76,36 +71,27 @@ function PostDetail() {
               setPost={setPost}
               usuario={usuarioActual}
             />
-          </Col>
+          </main>
 
-          <Col xs={12} xl={3} className="d-none d-xl-block">
+          <aside
+            className="col-12 col-xl-3 sticky-top d-none d-xl-block"
+            style={{ top: "80px", height: "fit-content" }}
+          >
             <div
-              className="sticky-top"
-              style={{
-                top: "85px",
-                display: "flex",
-                flexDirection: "column",
-                gap: "10px",
-              }}
+              className="card p-3 border border-2 border-dark rounded-0"
+              style={{ background: "#F5F5DC" }}
             >
-              <div
-                className="card p-3 border border-2 border-dark rounded-0"
-                style={{ background: "#F5F5DC" }}
-              >
-                <h5 className="fw-bold text-dark text-center">
-                  🐵 Nosotros 🐵
-                </h5>
-                <hr className="my-2" />
-                <p className="small text-muted mb-0">
-                  UnaHur-Anti Social Net es el refugio digital para aquellos que
-                  prefieren los árboles a las oficinas.
-                </p>
-              </div>
-
-              <AsideNoticias />
+              <h5 className="fw-bold text-dark text-center">🐵 Nosotros 🐵</h5>
+              <hr className="my-2" />
+              <p className="small text-muted mb-0">
+                UnaHur-Anti Social Net es el refugio digital para aquellos que
+                prefieren los árboles a las oficinas.
+              </p>
             </div>
-          </Col>
-        </Row>
+
+            <AsideNoticias />
+          </aside>
+        </div>
       </div>
     </div>
   );
