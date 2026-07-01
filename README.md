@@ -19,11 +19,11 @@ https://github.com/JuanMazza91/red-anti-social-api
 
 ## Integrantes
 
-- @gonzaloherlein
-- @JuanMazza91
-- @MateoHortas
-- @sofiaagomez
-- @ThomiVai
+- [@gonzaloherlein](https://github.com/gonzaloherlein)
+- [@JuanMazza91](https://github.com/JuanMazza91)
+- [@MateoHortas](https://github.com/MateoHortas)
+- [@sofiaagomez](https://github.com/sofiaagomez)
+- [@ThomiVai](https://github.com/ThomiVai)
 
 ---
 
@@ -190,94 +190,36 @@ La aplicación quedará disponible en:
 ```text
 http://localhost:5173
 ```
+---
+
+## Endpoints de Publicaciones
+
+| Método | Endpoint | Descripción |
+|----------|----------|----------|
+| GET | `/posts` | Obtiene todas las publicaciones |
+| GET | `/posts/:id` | Obtiene una publicación específica |
+| POST | `/posts` | Crea una nueva publicación |
+| DELETE | `/posts/:id` | Elimina una publicación |
+| GET | `/posts/:id/imagenes` | Obtiene las imágenes asociadas a una publicación |
+| PUT | `/posts/:id/banano` | Agrega una reacción (🍌) a una publicación |
 
 ---
 
-## Generar build de producción
+## Endpoints de Comentarios
 
-```bash
-npm run build
-```
-
----
-
-## Previsualizar build
-
-```bash
-npm run preview
-```
+| Método | Endpoint | Descripción |
+|----------|----------|----------|
+| GET | `/posts/:id/comentarios` | Obtiene los comentarios de una publicación |
+| POST | `/comentarios` | Crea un nuevo comentario |
+| DELETE | `/comentarios/:id` | Elimina un comentario |
 
 ---
 
-# API utilizada
+## Endpoints de Etiquetas (Tags)
 
-La aplicación consume una API REST ejecutándose localmente en:
-
-```text
-http://localhost:3000
-```
-
----
-
-## Endpoints de publicaciones
-
-### Obtener publicaciones
-
-```http
-GET /posts
-```
-
-### Obtener una publicación
-
-```http
-GET /posts/:id
-```
-
-### Crear publicación
-
-```http
-POST /posts
-```
-
-### Eliminar publicación
-
-```http
-DELETE /posts/:id
-```
-
-### Obtener imágenes de una publicación
-
-```http
-GET /posts/:id/imagenes
-```
-
-### Dar banano a una publicación
-
-```http
-PUT /posts/:id/banano
-```
-
----
-
-## Endpoints de comentarios
-
-### Obtener comentarios de una publicación
-
-```http
-GET /posts/:id/comentarios
-```
-
-### Crear comentario
-
-```http
-POST /comentarios
-```
-
-### Eliminar comentario
-
-```http
-DELETE /comentarios/:id
-```
+| Método | Endpoint | Descripción |
+|----------|----------|----------|
+| GET | `/tags` | Obtiene todas las etiquetas disponibles |
 
 ---
 
