@@ -25,3 +25,10 @@
 @media (max-width: 500px) {
   .d-xl-flex { display: none !important; }
 }
+
+@media (max-width: 768px) {
+  .navbar-search {
+    width: 220px !important;
+    max-width: 50vw !important;
+  }
+}

@@ -20,3 +20,21 @@
 .container-home {
   background-color: #f9f9e0;
 }
+
+.feed-avatar-slot {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+/* AVATAR PEGADO AL FEED */
+.sidebar-avatar-mobile {
+  display: flex;
+  cursor: pointer;
+
+  background: white;
+  border: 3px solid #1a1a1a;
+  border-radius: 50%;
+  padding: 4px;
+}
