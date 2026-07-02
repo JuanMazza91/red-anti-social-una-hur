@@ -72,11 +72,10 @@ export const crearPost = async (postData: CreatePostData, token?: string): Promi
   if (token) {
     headers["Authorization"] = `Bearer ${token}`;
   }
-
-  const response = await fetch("http://localhost:3000/posts", {
+  const response = await fetch(API_URL, {
     method: "POST",
     headers,
-    body: JSON.stringify(postData), // <-- Envía el formato chico (CreatePostData)
+    body: JSON.stringify(postData), 
   });
 
   const data = await response.json();
@@ -84,8 +83,6 @@ export const crearPost = async (postData: CreatePostData, token?: string): Promi
   if (!response.ok) {
     throw new Error(data?.error || data?.message || "Error al lanzar la huella");
   }
-
-  // <-- Retorna el Post completo con su _id, autor populado, bananos, etc.
   return data as Post; 
 };
 

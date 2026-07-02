@@ -1,97 +1,49 @@
-import { useEffect, useState } from "react";
-import { obtenerPosts } from "../api/PostApi";
-import type { Post } from "../types/Post";
 import PostCard from "./PostCard";
 import { Sidebar } from "./Sidebar";
 import AsideNoticias from "./AsideNoticias";
 import ModalPublication from "./ModalPublication";
+import { useState } from "react";
+import type { Post } from "../types/Post";
 
-function PostsHome() {
-  const [posts, setPosts] = useState<Post[]>([]);
-  const [error, setError] = useState<string | null>(null);
-  const [cargando, setCargando] = useState<boolean>(true);
+interface Props {
+  posts: Post[];
+  cargando: boolean;
+  error: string | null;
+  cargarPosts: () => void;
+  onUpdatePost: (post: Post) => void;
+  onDeletePost: (id: string) => void;
+}
+
+function PostsHome({ posts, cargando, error, cargarPosts, onUpdatePost, onDeletePost }: Props) {
   const [showModal, setShowModal] = useState<boolean>(false);
 
-  const limpiarDatos = (data: any): Post[] => {
-    if (Array.isArray(data)) return data;
-    return data?.posts ?? data?.data ?? [];
-  };
-
-  const cargarPosts = async () => {
-    console.log("🍌🍌🍌 cargarPosts EJECUTÁNDOSE 🍌🍌🍌");
-    try {
-      setCargando(true);
-      console.log("🔄 Solicitando posts al servidor...");
-      const data = await obtenerPosts();
-      console.log("📦 Respuesta del servidor:", data);
-      const postsLimpios = limpiarDatos(data);
-      console.log("✅ Posts después de limpiar:", postsLimpios);
-      console.log("📊 Cantidad de posts:", postsLimpios.length);
-      setPosts(postsLimpios);
-      setError(null);
-    } catch (error: any) {
-      console.error("❌ Error en cargarPosts:", error);
-      setError(error.message || "Error al cargar los posts");
-    } finally {
-      setCargando(false);
-      console.log("🏁 cargarPosts TERMINADO");
-    }
-  };
-  // En el useEffect
-  useEffect(() => {
-
-    cargarPosts();
-  }, []);
-
-  const handleUpdatePost = (postActualizado: Post) => {
-    setPosts((postsAnteriores) =>
-      postsAnteriores.map((p) =>
-        p._id === postActualizado._id ? postActualizado : p,
-      ),
-    );
-  };
-
-  const handleDeletePost = (postId: string) => {
-    setPosts((postsAnteriores) =>
-      postsAnteriores.filter((p) => p._id !== postId),
-    );
-  };
-
   return (
-    <div className="container-home">
-      <div className="container mt-4">
-        <div className="row g-4">
-          <div className="col-12 col-lg-4 col-xl-3">
-            <Sidebar />
-          </div>
+    <div className="container mt-4">
+      <div className="row g-4">
+        <div className="col-12 col-lg-4 col-xl-3">
+          <Sidebar />
+        </div>
 
-          <main className="col-12 col-lg-8 col-xl-6">
-            {cargando && <p>Cargando publicaciones...</p>}
-            {error && <div className="alert alert-danger">{error}</div>}
+        <main className="col-12 col-lg-8 col-xl-6">
+          <ModalPublication
+            show={showModal}
+            handleClose={() => setShowModal(false)}
+            onPostCreated={cargarPosts}
+          />
 
-            {!cargando && posts.length === 0 && (
-              <p>No hay posts para mostrar.</p>
-            )}
-            <ModalPublication
-              show={showModal}
-              handleClose={() => {
-                console.log("🟡 Cerrando modal");
-                setShowModal(false);
-              }}
-              onPostCreated={() => {
-                console.log("🟢 onPostCreated llamado desde el modal");
-                cargarPosts();
-              }}
+          {cargando && <p>Cargando publicaciones...</p>}
+          {error && <div className="alert alert-danger">{error}</div>}
+          {!cargando && posts.length === 0 && <p>No hay posts para mostrar.</p>}
+
+          {posts.map((post) => (
+            <PostCard
+              key={post._id}
+              post={post}
+              onUpdatePost={onUpdatePost}
+              onDeletePost={onDeletePost}
             />
-            {posts.map((post) => (
-              <PostCard
-                key={post._id}
-                post={post}
-                onUpdatePost={handleUpdatePost}
-                onDeletePost={handleDeletePost}
-              />
-            ))}
-          </main>
+          ))}
+        </main>
 
           {/* COLUMNA DERECHA: Noticias / Info Secundaria */}
 
@@ -115,7 +67,7 @@ function PostsHome() {
           </aside>
         </div>
       </div>
-    </div>
+    
   );
 }
 
