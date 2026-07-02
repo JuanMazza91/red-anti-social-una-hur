@@ -15,7 +15,8 @@ function DetailPostCard({ post, onUpdatePost }: DetailPostCardProps) {
   const { usuarioActual } = useAuth(); // 🍌 Consumimos el usuario logueado en la selva
   const fechaRelativa = useRelativeTime(post.createdAt);
   const navigate = useNavigate();
-  const puedeEliminar = usuarioActual && post.autor && post.autor._id === usuarioActual._id;
+  const puedeEliminar =
+    usuarioActual && post.autor && post.autor._id === usuarioActual._id;
 
   // Saber si el chimpancé actual ya le dio Banano a esta publicación
   const yaDioBanano = (bananos || []).includes(usuarioActual?._id || "");
@@ -70,7 +71,7 @@ function DetailPostCard({ post, onUpdatePost }: DetailPostCardProps) {
         showConfirmButton: false,
       });
 
-      navigate("/home", {replace: true});
+      navigate("/home", { replace: true });
     } catch (error) {
       console.error(error);
 
@@ -85,40 +86,29 @@ function DetailPostCard({ post, onUpdatePost }: DetailPostCardProps) {
   return (
     <Card className="border border-3 border-dark rounded-0 banana-shadow mb-5 bg-white">
       {/* Cabecera del post con info del autor y fecha */}
-    <Card.Header className="rounded-0 border-bottom py-3">
+      <Card.Header className="rounded-0 border-bottom py-3">
+        <div className="d-flex justify-content-between align-items-center w-100">
+          {/* LEFT SIDE */}
+          <div className="d-flex align-items-center gap-2">
+            {autor && <Avatar user={autor} size={45} />}
 
-      <div className="d-flex justify-content-between align-items-center w-100">
+            <div className="d-flex flex-column">
+              <span className="fw-bold text-dark font-headline">
+                {autor?.nickname || "Monke Anónimo"}
+              </span>
 
-        {/* LEFT SIDE */}
-        <div className="d-flex align-items-center gap-2">
-
-          {autor && <Avatar user={autor} size={45} />}
-
-          <div className="d-flex flex-column">
-            <span className="fw-bold text-dark font-headline">
-              {autor?.nickname || "Monke Anónimo"}
-            </span>
-
-            <span className="text-muted small fw-bold">
-              {fechaRelativa}
-            </span>
+              <span className="text-muted small fw-bold">{fechaRelativa}</span>
+            </div>
           </div>
 
+          {/* RIGHT SIDE */}
+          {puedeEliminar && (
+            <button className="delete-post-btn" onClick={handleDeletePost}>
+              <FaTrash />
+            </button>
+          )}
         </div>
-
-        {/* RIGHT SIDE */}
-        {puedeEliminar && (
-          <button
-            className="delete-post-btn"
-            onClick={handleDeletePost}
-          >
-            <FaTrash />
-          </button>
-        )}
-
-      </div>
-
-    </Card.Header>
+      </Card.Header>
 
       {/* Cuerpo del post con el texto */}
 
@@ -139,7 +129,7 @@ function DetailPostCard({ post, onUpdatePost }: DetailPostCardProps) {
                 />
               </div>
 
-              {/* COLUMNA 2 (Imagen Derecha con posible contador) */}
+              {/* COLUMNA 2 (Imagen Derecha) */}
               <div className="col-6 p-0 position-relative">
                 <img
                   src={imagenes[1].url}

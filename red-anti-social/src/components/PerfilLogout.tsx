@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/LoginContext";
 
@@ -6,12 +6,14 @@ import "../style/PerfilLogout.css";
 
 export function PerfilLogout() {
   const navigate = useNavigate();
-  const { logout } = useAuth();
+  const { logout, usuarioActual } = useAuth();
+
+  const [nombreUsuario] = useState<string>(usuarioActual?.nickname || "MONO");
 
   useEffect(() => {
     logout();
 
-    const timer = setTimeout(() => {
+    const timer: number = window.setTimeout(() => {
       navigate("/login");
     }, 3000);
 
@@ -25,7 +27,9 @@ export function PerfilLogout() {
           🦧👋
         </div>
 
-        <h4 className="perfil-titulo">¡HASTA LA PRÓXIMA, SIMIO!</h4>
+        <h4 className="perfil-titulo">
+          ¡HASTA LA PRÓXIMA, {nombreUsuario.toUpperCase()}!
+        </h4>
 
         <div className="perfil-loading-spinner" aria-hidden="true"></div>
       </div>

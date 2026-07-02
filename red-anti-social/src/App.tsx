@@ -13,7 +13,9 @@ function App() {
   const location = useLocation();
 
   const ocultarNavbar =
-    location.pathname === "/logout" || location.pathname === "/login";
+    location.pathname === "/logout" ||
+    location.pathname === "/login" ||
+    location.pathname === "/register";
 
   return (
     <div>

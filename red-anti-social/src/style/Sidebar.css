@@ -1,7 +1,7 @@
 .sidebar-contenedor {
   width: 100%;
   position: sticky !important;
-  top: 85px !important;
+  top: 95px !important;
   height: max-content !important;
   align-self: start !important;
   z-index: 1000 !important;
@@ -73,17 +73,8 @@
   color: #1a1a1a;
   letter-spacing: -0.5px;
   margin: 0;
-  padding: 5px;
+  padding: 10px;
   line-height: 1.1;
-}
-
-.sidebar-rol {
-  font-size: 0.75rem;
-  font-weight: 800;
-  color: rgba(26, 26, 26, 0.5);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-bottom: 0.7rem;
 }
 
 /* --- BOTÓN --- */
@@ -186,11 +177,41 @@
 .sidebar-link.deshabilitado,
 .sidebar-link-destacado.deshabilitado {
   opacity: 0.5;
-  cursor: help;
+
   pointer-events: auto !important;
+
+  cursor: help !important;
 }
 
-.sidebar-link.deshabilitado:hover {
-  opacity: 0.8;
-  background-color: #f0f0f0;
+.sidebar-link.deshabilitado:hover,
+.sidebar-link-destacado.deshabilitado:hover {
+  opacity: 0.7;
+  background-color: rgba(0, 0, 0, 0.05);
+
+  cursor: help !important;
+}
+
+/* --- ENLACE DE CERRAR SESIÓN --- */
+.sidebar-link.sidebar-link-logout {
+  background: transparent !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+  transform: none !important;
+  color: #1a1a1a;
+  margin-top: 1rem;
+}
+
+.sidebar-link.sidebar-link-logout:not(.deshabilitado):not(
+    .sidebar-btn-activo
+  ):hover {
+  background-color: #fb6666 !important;
+  border-color: #1a1a1a !important;
+  box-shadow: 4px 4px 0 #1a1a1a !important;
+  transform: translate(-1px, -1px) !important;
+}
+
+.sidebar-link.sidebar-link-logout:active {
+  background-color: #fb6666 !important;
+  transform: translate(2px, 2px) !important;
+  box-shadow: 2px 2px 0 #1a1a1a !important;
 }
