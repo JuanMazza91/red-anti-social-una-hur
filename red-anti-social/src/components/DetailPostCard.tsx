@@ -7,7 +7,7 @@ import { useAuth } from "../context/LoginContext"; // 🍌 Importamos useAuth
 import { darBananoAlPost } from "../api/PostApi"; // 🍌 Importamos el servicio agrupado
 import { eliminarPost } from "../api/PostApi";
 import { useNavigate } from "react-router-dom";
-import { FaTrash } from "react-icons/fa";
+import { FaTrash, FaArrowLeft } from "react-icons/fa";
 import Avatar from "./Avatar";
 
 function DetailPostCard({ post, onUpdatePost }: DetailPostCardProps) {
@@ -90,6 +90,15 @@ function DetailPostCard({ post, onUpdatePost }: DetailPostCardProps) {
         <div className="d-flex justify-content-between align-items-center w-100">
           {/* LEFT SIDE */}
           <div className="d-flex align-items-center gap-2">
+
+            <button
+              className="back-btn"
+              onClick={() => navigate("/home")}
+              title="Volver al inicio"
+            >
+              <FaArrowLeft size={25}/>
+            </button>
+
             {autor && <Avatar user={autor} size={45} />}
 
             <div className="d-flex flex-column">

@@ -6,6 +6,7 @@ import Hero from "../components/Hero";
 import { useSearch } from "../context/SearchContext";
 import "../style/Home.css";
 
+
 function Home() {
   const [posts, setPosts] = useState<Post[]>([]);
   const [error, setError] = useState<string | null>(null);

@@ -96,7 +96,6 @@ const ModalPublication: React.FC<ModalPublicationProps> = ({
         onPostCreated();
       }
     } catch (err: any) {
-      console.error("❌ Error al publicar:", err);
       setError(
         err?.message || "Hubo un error al lanzar tu huella en la selva.",
       );
