@@ -1,7 +1,10 @@
 import { Button } from "react-bootstrap";
 import { useNavigate, useLocation } from "react-router-dom";
+import { useState } from "react";
 import { useAuth } from "../context/LoginContext";
-import { useUserPosts } from "../hooks/useUserPosts";
+
+import Avatar from "./Avatar";
+import ModalPublication from "./ModalPublication";
 
 import {
   PiSealCheck,
@@ -12,23 +15,23 @@ import {
   PiSignOut,
 } from "react-icons/pi";
 
-import Avatar from "./Avatar";
-
 import "../style/Sidebar.css";
 
 export function Sidebar() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const { usuarioActual: user, cargando: authLoading } = useAuth();
-
-  const { misPosts } = useUserPosts(authLoading ? undefined : user?._id);
+  const { usuarioActual: user } = useAuth();
 
   const esActivo = (ruta: string): string =>
     location.pathname === ruta ? "sidebar-btn-activo" : "";
 
-  // mensajes para la navegacion deshabilitada
-  const manejarBotonDeAdorno = (seccion: string) => {
+  const [showModal, setShowModal] = useState<boolean>(false);
+
+  const handleOpen = () => setShowModal(true);
+  const handleClose = () => setShowModal(false);
+
+  const manejarSeccionDeshabilitada = (seccion: string): void => {
     const excusas = [
       "Un gorila de 200kg se sentó sobre los servidores y rompió los cables.",
       "Se cortó la liana de fibra óptica de la conexión a internet. Intentá más tarde.",
@@ -40,14 +43,6 @@ export function Sidebar() {
     const fraseAleatoria = excusas[Math.floor(Math.random() * excusas.length)];
 
     alert(`🌴 [${seccion.toUpperCase()}] 🌴\n\n¡OOK OOK! ${fraseAleatoria}`);
-  };
-
-  // rango dinámico según sus posts
-  const obtenerRangoSimio = (): string => {
-    const cantidad = misPosts?.length || 0;
-    if (cantidad === 0) return "CHIMPANCÉ NOVATO";
-    if (cantidad >= 1 && cantidad <= 3) return "GORILA DE LA SELVA";
-    return "REY DE LA MANADA";
   };
 
   return (
@@ -71,19 +66,21 @@ export function Sidebar() {
         {/* --- USER INFO --- */}
         <h5 className="sidebar-nombre">{user?.nickname || "Monke Master"}</h5>
 
-        <span className="sidebar-rol">{obtenerRangoSimio()}</span>
+        {/* --- BOTÓN POST --- */}
+        <div className="sidebar-btn-wrapper">
+          <Button className="sidebar-btn" onClick={handleOpen}>
+            OOK OOK!
+          </Button>
+        </div>
 
-        {/* --- BOTÓN --- */}
-        <Button className="sidebar-btn" onClick={() => navigate("/crear-post")}>
-          OOK OOK!
-        </Button>
+        <ModalPublication show={showModal} handleClose={handleClose} />
       </div>
 
       {/* --- LÍNEA DIVISORIA --- */}
       <hr className="sidebar-divisor" />
 
       <nav className="sidebar-menu">
-        {/* --- ENLACE ACTIVO --- */}
+        {/* --- ENLACES ACTIVOS --- */}
         <button
           type="button"
           onClick={() => navigate("/home")}
@@ -92,24 +89,6 @@ export function Sidebar() {
           <PiTree /> MURO SELVÁTICO
         </button>
 
-        {/* --- ENLACES DESACTIVADOS --- */}
-        <button
-          type="button"
-          onClick={() => manejarBotonDeAdorno("Charlas de Árbol")}
-          className="sidebar-link deshabilitado"
-        >
-          <PiChatCircle /> CHARLAS DE ÁRBOL
-        </button>
-
-        <button
-          type="button"
-          onClick={() => manejarBotonDeAdorno("Noticias Banana")}
-          className="sidebar-link deshabilitado"
-        >
-          <PiNewspaper /> NOTICIAS BANANA
-        </button>
-
-        {/* --- ENLACE ACTIVO --- */}
         <button
           type="button"
           onClick={() => navigate("/perfil")}
@@ -118,11 +97,28 @@ export function Sidebar() {
           <PiGraph /> MIS LIANAS
         </button>
 
+        {/* --- ENLACES DESACTIVADOS --- */}
+        <button
+          type="button"
+          onClick={() => manejarSeccionDeshabilitada("Noticias Banana")}
+          className="sidebar-link deshabilitado"
+        >
+          <PiNewspaper /> NOTICIAS BANANA
+        </button>
+
+        <button
+          type="button"
+          onClick={() => manejarSeccionDeshabilitada("Charlas de Árbol")}
+          className="sidebar-link deshabilitado"
+        >
+          <PiChatCircle /> CHARLAS DE ÁRBOL
+        </button>
+
         {/* --- CERRAR SESIÓN --- */}
         <button
           type="button"
           onClick={() => navigate("/logout")}
-          className="sidebar-link"
+          className="sidebar-link sidebar-link-logout"
         >
           <PiSignOut /> CERRAR SESIÓN
         </button>

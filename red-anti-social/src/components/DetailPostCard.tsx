@@ -79,7 +79,7 @@ function DetailPostCard({ post, onUpdatePost }: DetailPostCardProps) {
   };
 
   return (
-    <Card className="border border-3 border-dark rounded-0 banana-shadow mb-5 bg-white">
+    <Card className="border border-3 border-dark rounded-0 banana-shadow mb-0 bg-white">
       <Card.Header className="rounded-0 border-bottom py-3">
         <div className="d-flex justify-content-between align-items-center w-100">
           {/* LEFT SIDE */}
@@ -119,7 +119,7 @@ function DetailPostCard({ post, onUpdatePost }: DetailPostCardProps) {
                 />
               </div>
 
-              {/* COLUMNA 2 (Imagen Derecha con posible contador) */}
+              {/* COLUMNA 2 (Imagen Derecha) */}
               <div className="col-6 p-0 position-relative">
                 <img
                   src={imagenes[1].url}
