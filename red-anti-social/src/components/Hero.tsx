@@ -2,7 +2,11 @@ import { useState } from "react";
 import { Container, Button } from "react-bootstrap";
 import ModalPublication from "./ModalPublication";
 
-function Hero() {
+interface HeroProps {
+  refreshPosts: () => void; // Definimos el tipo de la función
+}
+
+const Hero = ({ refreshPosts }: HeroProps) => {
   const [showModal, setShowModal] = useState(false);
 
   const handleOpen = () => setShowModal(true);
@@ -65,11 +69,11 @@ function Hero() {
           onClick={handleOpen}
         >
           <span className="material-symbols-outlined fs-3"></span>
-          Nuevo Post
+          Nueva Huella
         </Button>
       </Container>
 
-      <ModalPublication show={showModal} handleClose={handleClose} />
+      <ModalPublication show={showModal} handleClose={handleClose} onPostCreated={refreshPosts}/>
     </section>
   );
 }

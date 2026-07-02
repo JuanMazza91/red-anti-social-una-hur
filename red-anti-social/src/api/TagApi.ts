@@ -10,3 +10,18 @@ export async function obtenerTags(): Promise<Tag[]> {
   const posts: Tag[] = await respuesta.json();
   return posts;
 }
+
+
+export const crearTag = async (nombreTag: string) => {
+  const response = await fetch('API_URL', { 
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ nombre: nombreTag }),
+  });
+  if (!response.ok) {
+    throw new Error('Error al crear el tag');
+  }
+  return await response.json();
+};

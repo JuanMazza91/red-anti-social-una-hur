@@ -73,7 +73,11 @@ export function Sidebar() {
           </Button>
         </div>
 
-        <ModalPublication show={showModal} handleClose={handleClose} />
+        <ModalPublication
+          show={showModal}
+          handleClose={handleClose}
+          onPostCreated={() => {}}
+        />
       </div>
 
       {/* --- LÍNEA DIVISORIA --- */}

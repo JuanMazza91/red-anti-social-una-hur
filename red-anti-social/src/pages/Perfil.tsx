@@ -1,10 +1,12 @@
 import { Container, Row, Col, Button } from "react-bootstrap";
-import { Navigate, useNavigate } from "react-router-dom";
-
+import { Navigate } from "react-router-dom";
+import { useState } from "react";
 import { useAuth } from "../context/LoginContext";
 import { useUserPosts } from "../hooks/useUserPosts";
+
 import { Sidebar } from "../components/Sidebar";
 import PostCard from "../components/PostCard";
+import ModalPublication from "../components/ModalPublication";
 
 import type { Post } from "../types/Index";
 
@@ -19,8 +21,6 @@ import {
 import "../style/Perfil.css";
 
 export function Perfil() {
-  const navigate = useNavigate();
-
   const { usuarioActual: user, cargando: authLoading } = useAuth();
 
   const {
@@ -39,6 +39,11 @@ export function Perfil() {
   const handleDeletePost = (postId: string) => {
     setMisPosts((prevPosts) => prevPosts.filter((p) => p._id !== postId));
   };
+
+  const [showModal, setShowModal] = useState<boolean>(false);
+
+  const handleOpen = () => setShowModal(true);
+  const handleClose = () => setShowModal(false);
 
   if (authLoading || perfilLoading) {
     return (
@@ -163,12 +168,16 @@ export function Perfil() {
                         <div className="perfil-empty-icon">🦧🌴</div>
                         <h3>¡Silencio en la copa del árbol!</h3>
                         <p>Todavía no has lanzado ningún Ook.</p>
-                        <Button
-                          className="perfil-btn"
-                          onClick={() => navigate("/crear-post")}
-                        >
+
+                        <Button className="perfil-btn" onClick={handleOpen}>
                           CREA TU PRIMER OOK
                         </Button>
+
+                        <ModalPublication
+                          show={showModal}
+                          handleClose={handleClose}
+                          onPostCreated={() => {}}
+                        />
                       </div>
                     ) : (
                       <div className="d-flex flex-column gap-4">
