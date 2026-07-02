@@ -8,7 +8,7 @@ import { crearPost } from "../api/PostApi";
 interface ModalPublicationProps {
   show: boolean;
   handleClose: () => void;
-  onPostCreated?: () => void;
+  onPostCreated: () => void;
 }
 
 const ModalPublication: React.FC<ModalPublicationProps> = ({
@@ -23,7 +23,6 @@ const ModalPublication: React.FC<ModalPublicationProps> = ({
   const [allTags, setAllTags] = useState<Tag[]>([]);
   const [selectedTags, setSelectedTags] = useState<Tag[]>([]);
 
-  // Estados de control para la UI
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -40,19 +39,16 @@ const ModalPublication: React.FC<ModalPublicationProps> = ({
     if (show) fetchTags();
   }, [show]);
 
-  // Manejo de cambios en los inputs de imágenes
   const handleImageChange = (index: number, value: string) => {
     const nuevasImagenes = [...imagenes];
     nuevasImagenes[index] = value;
     setImagenes(nuevasImagenes);
   };
 
-  // Agregar un nuevo casillero para otra imagen
   const handleAddImageField = () => {
     setImagenes([...imagenes, ""]);
   };
 
-  // Remover un casillero de imagen específico
   const handleRemoveImageField = (index: number) => {
     const nuevasImagenes = imagenes.filter((_, i) => i !== index);
     setImagenes(nuevasImagenes.length ? nuevasImagenes : [""]);
@@ -69,12 +65,10 @@ const ModalPublication: React.FC<ModalPublicationProps> = ({
     e.target.value = "";
   };
 
-  // Quitar una etiqueta seleccionada
   const handleRemoveTag = (tagId: string) => {
     setSelectedTags(selectedTags.filter((t) => t._id !== tagId));
   };
 
-  // Guardar publicación de forma asíncrona conectando con tu PostApi
   const handlePublicar = async () => {
     setError(null);
     setLoading(true);
@@ -89,9 +83,6 @@ const ModalPublication: React.FC<ModalPublicationProps> = ({
         imagenes: urlsValidas,
         tags: tagsIds,
       };
-
-      console.log("📤 Enviando publicación:", payload);
-
       const postCreado = await crearPost(payload, usuarioActual?._id);
       console.log("✅ Post creado exitosamente:", postCreado);
 
@@ -99,18 +90,10 @@ const ModalPublication: React.FC<ModalPublicationProps> = ({
       setImagenes([""]);
       setSelectedTags([]);
       setError(null);
-
       handleClose();
 
-      console.log("🔍 onPostCreated existe?:", !!onPostCreated);
-      console.log("🔍 onPostCreated es función?:", typeof onPostCreated);
-
       if (onPostCreated) {
-        console.log("🔄 Ejecutando onPostCreated AHORA...");
         onPostCreated();
-        console.log("✅ onPostCreated ejecutado");
-      } else {
-        console.log("❌ onPostCreated es undefined o null");
       }
     } catch (err: any) {
       console.error("❌ Error al publicar:", err);
@@ -206,38 +189,31 @@ const ModalPublication: React.FC<ModalPublicationProps> = ({
 
         {/* Sección Dinámica de Selección de Etiquetas */}
         <Form.Group className="mb-3">
-          <Form.Label className="fw-bold" style={{ color: "#524700" }}>
-            Etiquetas (Tags)
-          </Form.Label>
-          <Form.Select
-            onChange={handleTagSelect}
-            className="border border-1 border-dark shadow-none mb-2"
-            style={{ background: "#F5F5DC" }}
-            defaultValue=""
-            disabled={loading}
-          >
-            <option value="" disabled>
-              Seleccioná etiquetas de la base de datos...
-            </option>
+          <div className="d-flex flex-wrap gap-2 mb-3">
             {allTags.map((tag) => (
-              <option key={tag._id} value={tag._id}>
-                {tag.nombre}
-              </option>
-            ))}
-          </Form.Select>
-
-          {/* Visualización de Tags seleccionados estilo Chips/Badges */}
-          <div className="d-flex flex-wrap gap-2 mt-2">
-            {selectedTags.map((tag) => (
               <Badge
                 key={tag._id}
-                bg="dark"
-                className="p-2 fs-6 rounded-pill d-flex align-items-center gap-2"
-                style={{ color: "#ffe245", cursor: "pointer" }}
-                onClick={() => !loading && handleRemoveTag(tag._id)}
+                bg={
+                  selectedTags.some((t) => t._id === tag._id)
+                    ? "warning"
+                    : "secondary"
+                }
+                className="p-2 fs-6 rounded-pill"
+                style={{
+                  cursor: "pointer",
+                  color: selectedTags.some((t) => t._id === tag._id)
+                    ? "#000"
+                    : "#fff",
+                }}
+                onClick={() => {
+                  if (!selectedTags.some((t) => t._id === tag._id)) {
+                    setSelectedTags([...selectedTags, tag]);
+                  } else {
+                    handleRemoveTag(tag._id);
+                  }
+                }}
               >
-                #{tag.nombre}{" "}
-                <span style={{ fontSize: "12px", color: "#ff4d4d" }}>✕</span>
+                #{tag.nombre}
               </Badge>
             ))}
           </div>

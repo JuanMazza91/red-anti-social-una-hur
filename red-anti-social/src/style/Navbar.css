@@ -21,3 +21,7 @@
 .navbar-user svg {
   font-size: 1.2rem;
 }
+
+@media (max-width: 500px) {
+  .d-xl-flex { display: none !important; }
+}
